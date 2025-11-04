@@ -98,8 +98,23 @@ def rest():
     p_race_charges=p_max_race_charges
     p_max_health=int(p_max_health)
 
-def settings():
-    global sleep_setting, input_var
+def settings(w):
+    global sleep_setting, input_var, difficulty
+    if w=="First":
+        while True:
+            input_var=input("What difficulty would you like to do? Inputs are 'easy', 'normal' and 'hard'.\n>>>")
+            input_var=input_var.lower()
+            if input_var=="easy" or input_var=="e":
+                difficulty="e"
+                break
+            elif input_var=="normal" or input_var=="n":
+                difficulty="n"
+                break
+            elif input_var=="hard" or input_var=="h":
+                difficulty="h"
+                break
+            else:
+                print("The only acceptable inputs are 'yes' and 'no'.")
     while True:
         input_var=input("Do you want there to be pause before selecting races/classes/points? (This is used to not make mistakes while spamming.)\n>>>")
         input_var=input_var.lower()
@@ -184,7 +199,7 @@ def town():
     input_var=input(input_var)
     input_var=input_var.lower()
     if input_var=="settings" or input_var=="setting" or input_var=="se":
-        settings()
+        settings("later")
     elif input_var=="quests" or input_var=="quest" or input_var=="q":
         if num_of_quests>0:
             talk_to_villager()
@@ -485,17 +500,19 @@ def tutorial():
             print("Pls sub <3")
 
 def points(w):
-    global input_var, p_max_health, p_max_mana, p_AB, p_max_speed, p_max_armor, p_DR, sleep_setting, mon1_hp, p_loot
+    global input_var, p_max_health, p_max_mana, p_AB, p_max_speed, p_max_armor, p_DR, sleep_setting, mon1_hp, p_loot, difficulty
     if w=="combat":
         if sleep_setting[:1]=="y":
             time.sleep(1.1)
         input_var=input(f"\nYou've defeated the {mon1_race}, and are able to choose a stat to put points into.\nHealth: {p_max_health}\nMana: {p_max_mana}\nAB: {p_AB}\nArmor: {p_max_armor}\nSpeed: {p_max_speed}\nDR: {p_DR}\nLoot: {p_loot}\nEnter your desired stat upgrade here:\n>>>")
     elif w=="Alc Pot":
-        input_var=input(f"You got some points in the middle of the battle! Choose a stat.\nHealth: {p_max_health}\nMana: {p_max_mana}\nAB: {p_AB}\nArmor: {p_max_armor}\nSpeed: {p_max_speed}\nDR: {p_DR}\nLoot: {p_loot}\nEnter your desired stat upgrade here:\n>>>")
+        input_var=input(f"You got some points in the middle of the battle!!! Choose a stat.\nHealth: {p_max_health}\nMana: {p_max_mana}\nAB: {p_AB}\nArmor: {p_max_armor}\nSpeed: {p_max_speed}\nDR: {p_DR}\nLoot: {p_loot}\nEnter your desired stat upgrade here:\n>>>")
     elif w=="shop":
         input_var=input(f"You purchased some points! Choose a stat.\nHealth: {p_max_health}\nMana: {p_max_mana}\nAB: {p_AB}\nArmor: {p_max_armor}\nSpeed: {p_max_speed}\nDR: {p_DR}\nLoot: {p_loot}\nEnter your desired stat upgrade here:\n>>>")
     elif w=="quest":
         input_var=input(f"You completed your quest!! Choose a stat.\nHealth: {p_max_health}\nMana: {p_max_mana}\nAB: {p_AB}\nArmor: {p_max_armor}\nSpeed: {p_max_speed}\nDR: {p_DR}\nLoot: {p_loot}\nEnter your desired stat upgrade here:\n>>>")
+    elif w=="difficulty":
+        input_var=input(f"Your difficulty gave you another point! Choose a stat.\nHealth: {p_max_health}\nMana: {p_max_mana}\nAB: {p_AB}\nArmor: {p_max_armor}\nSpeed: {p_max_speed}\nDR: {p_DR}\nLoot: {p_loot}\nEnter your desired stat upgrade here:\n>>>")
     input_var=input_var.lower()
     p_max_health+=random.randint(0, 2)
     if input_var=="health" or input_var=="h" or input_var=="hp":
@@ -524,6 +541,10 @@ def points(w):
     else:
         print("Please re-enter your answer.")
         points(w)
+    if difficulty=="easy" and random.randint(1, 4):
+        points("dificulty")
+    if difficulty=="normal" and random.randint(1, 9):
+        points("difficulty")
 
 def choose_a_race():
     global p_max_health, p_max_mana, input_var, p_classes, p_AB, p_max_armor, p_DR, p_race, p_speed, p_lv, p_max_speed, p_max_race_charges, sleep_setting
@@ -791,7 +812,7 @@ def choose_a_race():
 #Gold: Noble and wise, often acting as guardians.
 #Silver: Compassionate and helpful, often aiding adventurers.
     elif input_var=="aasimar" or input_var=="aa": #Premium
-        input_var=input("Enter the War Bot code:\n>>>")
+        input_var=input("Enter the Aasimar code:\n>>>")
         input_var=input_var.lower()
         machine_id = uuid.getnode()
         if input_var==".".join(str(int(part) + 4) for part in str(machine_id).split()):
@@ -1040,7 +1061,7 @@ def level_up():
     rest()
 
 def create_monster():
-    global p_lv, mon1_hp, mon1_spd, mon1_armor, mon1_AB, j, mon1_race, mon1_max_hp
+    global p_lv, mon1_hp, mon1_spd, mon1_armor, mon1_AB, j, mon1_race, mon1_max_hp, difficulty
     p_room=1
     mon1_max_hp=0
     j=p_lv*random.randint(6, 13)
@@ -1051,18 +1072,22 @@ def create_monster():
     mon1_armor=random.randint(0+p_lv//2, 2+p_lv*2)
     mon1_AB=random.randint(2, 3)
     mon_var_list=0
-    m_dificulty=1
+    m_difficulty=1
     if p_lv==2:
-        m_dificulty+=1
+        m_difficulty+=1
     if p_lv==1:
-        m_dificulty=3
+        m_difficulty=3
     j=(2+p_lv//2)
     while j>0:
         j-=1
-        m_dificulty+=random.uniform(3 + p_lv//2, 4 + p_lv*1.2)**random.choice([1, 1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.3, 1.3, 1.4])
+        m_difficulty+=random.uniform(3 + p_lv//2, 4 + p_lv*1.2)**random.choice([1, 1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.22, 1.3, 1.3, 1.4])
+        if difficulty!="hard":
+            m_difficulty-=p_lv
+        elif difficulty=="easy":
+            m_difficulty-=p_lv
     mon_stats=-1
-    while m_dificulty>0:
-        m_dificulty-=1
+    while m_difficulty>0:
+        m_difficulty-=1
         mon_stats=random.randint(0, 5)
         if mon_stats==0:
             mon1_max_hp+=random.randint(15, 20)
@@ -1070,15 +1095,15 @@ def create_monster():
             if mon1_spd<2+p_lv*1.9:
                 mon1_spd+=random.choice([0, 0, 0, 1+p_lv/9])
             else:
-                m_dificulty+=1
+                m_difficulty+=1
         elif mon_stats==5:
             mon1_armor+=random.choice([0, 0, 1+p_lv/14])
         elif mon_stats>1 and mon_stats<5:
             if mon1_AB<2*p_lv+2:
                 mon1_AB+=random.choice([0, 0, 1+p_lv/12])
             else:
-                m_dificulty+=1
-        else: m_dificulty+=1
+                m_difficulty+=1
+        else: m_difficulty+=1
     #decides race
     input_var=random.randint(1, 16) #hello mr dev. If you're reading this, consider adding a giant. I'm not doing it rn because it'll take WAY too long considering quests and all.
     if input_var<=4:
@@ -2060,7 +2085,7 @@ def p_turn_pt2():
             else:
                 q+=(f"And your stat is {p_effect}.")
             print(q)
-            if p_effect=="charge":
+            if p_effect=="chrg":
                 p_AB_temp-=5
             elif p_effect=="-5 AB":
                 p_AB_temp+=5
@@ -3323,52 +3348,8 @@ while True:
         break
     else:
         print("The required inputs are either 'yes' or 'no'.")
-settings()
+settings("First")
 choose_a_race()
-if False:
-    level_up()
-    level_up()
-    level_up()
-    level_up()
-    level_up()
-    level_up()
-    level_up()
-    level_up()
-    level_up()
-    level_up()
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-    points("Combat")
-if False:
-    p_max_health=384
-    p_max_mana=138
-    p_AB=2
-    p_max_armor=3
-    p_max_speed=30
-    p_DR=16
-    p_loot=75
-    p_coins=600
-    p_lv=9
-    p_max_race_charges=5
-    p_classes.append("Mage")
-    p_classes.append("Mage")
-    p_classes.append("Mage")
-    p_classes.append("Mage")
-    p_classes.append("Mage")
-    p_classes.append("Mage")
-    p_classes.append("Mage")
-    p_classes.append("Mage")
-    p_classes.append("Mage")
 while True:
     level_up()
     create_monster()
