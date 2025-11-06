@@ -140,8 +140,7 @@ def settings(w):
 
 def enter_town():
     global num_of_quests, quest, p_coins
-    num_of_quests=random.uniform(1+p_lv/6, 2+p_lv/4)
-    num_of_quests=int(num_of_quests)
+    num_of_quests=int(random.uniform(1+p_lv/6, 2+p_lv/4))
     if quest[0]=="-":
         input_var=quest[1:]
         quest=input_var
@@ -152,11 +151,11 @@ def enter_town():
             while quest[input_var]!=">":
                 input_var+=1
             input_var+=2
-            if quest[input_var+1]!=" ":
+            if quest[input_var+1]==" ":
                 x+=int(quest[input_var])
             else:
-                x+=int(quest[input_var])
-                x+=int(quest[input_var-1])*10
+                x+=int(quest[input_var])*10
+                x+=int(quest[input_var+1])
             while x>0:
                 points("quest")
                 x-=1
@@ -285,13 +284,13 @@ def shop():
         if input_var=="insurance" or input_var=="i":
             if p_coins>=insurance_cost:
                 p_coins-=insurance_cost
-                p_insurance=1
+                p_insurance=2
             else:
                 print("You don't have enough coins.")
         elif input_var=="premium insurance" or input_var=="premium" or input_var=="pi" or input_var=="p":
             if p_coins>=premium_insurance_cost:
                 p_coins-=premium_insurance_cost
-                p_insurance=2
+                p_insurance=3
             else:
                 print("You don't have enough coins.")
         else:
@@ -500,7 +499,7 @@ def tutorial():
             print("Pls sub <3")
 
 def points(w):
-    global input_var, p_max_health, p_max_mana, p_AB, p_max_speed, p_max_armor, p_DR, sleep_setting, mon1_hp, p_loot, difficulty
+    global input_var, p_max_health, p_max_mana, p_AB, p_max_speed, p_max_armor, p_DR, sleep_setting, mon1_hp, p_loot, difficulty, p_coins
     if w=="combat":
         if sleep_setting[:1]=="y":
             time.sleep(1.1)
@@ -539,12 +538,16 @@ def points(w):
         p_loot+=random.randint(1, 4)
         print("You put your points into Loot!")
     else:
-        print("Please re-enter your answer.")
-        points(w)
-    if difficulty=="easy" and random.randint(1, 4):
-        points("dificulty")
-    if difficulty=="normal" and random.randint(1, 9):
-        points("difficulty")
+        if w=="shop":
+            print("Rebooting back to shop...")
+            p_coins+=6*p_lv+42
+        else:
+            print("Please re-enter your answer.")
+            points(w)
+        if difficulty=="e" and random.randint(1, 4):
+            points("dificulty")
+        if difficulty=="n" and random.randint(1, 9):
+            points("difficulty")
 
 def choose_a_race():
     global p_max_health, p_max_mana, input_var, p_classes, p_AB, p_max_armor, p_DR, p_race, p_speed, p_lv, p_max_speed, p_max_race_charges, sleep_setting
@@ -1453,7 +1456,7 @@ def mon1_turn():
         if mon1_spd<=0:
             input_var=mon1_spd
             mon1_spd=0.001
-        if mon1_spd**(random.randint(9, 12)*0.1)+mon1_trip_bonus+(mon1_trip_bonus//3)>=p_lv*random.randint(2, 3):
+        if mon1_spd**(random.randint(9, 12)*0.1)+mon1_trip_bonus+(mon1_trip_bonus//3)>=p_lv*random.randint(2, 3)-random.randint(0, 2):
             mon1_effect='non'
             print(f"The {mon1_race} got up.")
             mon1_trip_bonus=0
@@ -2259,10 +2262,10 @@ def p_turn_pt2():
                 print("Bad: It was a tripping potion!")
             elif q==6: #Bad #\-/
                 if input_var=="throw":
-                    mon1_armor-=random.randint(1+p_classes.count("Alchemist")//2, p_classes.count("Alchemist"))
+                    mon1_armor-=random.randint(2+p_classes.count("Alchemist")//3, 2+p_classes.count("Alchemist")//2)
                     mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
                 elif input_var=="drink":
-                    p_armor-=random.randint(2+p_classes.count("Alchemist")//2, 2+p_classes.count("Alchemist"))
+                    p_armor-=random.randint(2+p_classes.count("Alchemist")//3, 2+p_classes.count("Alchemist")//2)
                     p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
                 print("Bad: The potion reduced the armor of the target!")
             elif q==7: #Neutral #\-/
@@ -2370,12 +2373,12 @@ def p_turn_pt2():
             elif q==9: #Neutral #\-/
                 if input_var=="throw":
                     mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
-                    mon1_AB+=random.randint(p_classes.count("Alchemist")*2, p_classes.count("Alchemist")*4)
-                    mon1_hp-=mon1_AB*random.randint(6, 8)
+                    mon1_AB+=random.randint(2+p_classes.count("Alchemist")//4, 4+p_classes.count("Alchemist")//2)
+                    mon1_hp-=mon1_AB*random.randint(7, 9)
                 elif input_var=="drink":
                     p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
-                    p_AB_temp+=random.randint(p_classes.count("Alchemist")*2, p_classes.count("Alchemist")*4)
-                    p_health-=p_AB_temp*random.randint(6, 8)
+                    p_AB_temp+=random.randint(2+p_classes.count("Alchemist")//4, 4+p_classes.count("Alchemist")//2)
+                    p_health-=p_AB_temp*random.randint(7, 8)
                 print("Neutral: The potion gave lots of AB, but dealt damage scaling with the AB the target has.")
             elif q==10: #Neutral #\-/
                 if input_var=="throw":
@@ -2396,9 +2399,9 @@ def p_turn_pt2():
             if q==11: #Neutral #\-/ #Yes, this should be an 'if' not an elif because of q==2
                 print("Neutral: Whoever had the most speed had their speed reduced. Then whoever had the most speed after that got some extra turns.")
                 if mon1_spd>=p_speed:
-                    mon1_spd-=random.randint(p_classes.count("Alchemist")//2, 1+p_classes.count("Alchemist"))
+                    mon1_spd-=random.randint(p_classes.count("Alchemist")//3, 2+p_classes.count("Alchemist"))
                 else:
-                    p_speed-=random.randint(p_classes.count("Alchemist")//2, 1+p_classes.count("Alchemist"))
+                    p_speed-=random.randint(p_classes.count("Alchemist")//3, 2+p_classes.count("Alchemist"))
                 if input_var=="throw":
                     mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
                 elif input_var=="drink":
