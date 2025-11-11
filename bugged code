@@ -1,0 +1,4 @@
+import uuid
+machine_id = uuid.getnode()
+scrambled = ".".join(str(int(part) * 9) for part in str(machine_id).split())
+print(f"Here is your code for Pyromancer: {scrambled}")
