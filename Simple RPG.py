@@ -544,10 +544,11 @@ def points(w):
         else:
             print("Please re-enter your answer.")
             points(w)
-        if difficulty=="e" and random.randint(1, 4):
-            points("dificulty")
-        if difficulty=="n" and random.randint(1, 9):
-            points("difficulty")
+        return
+    if difficulty=="e" and random.randint(1, 4)==1 and w!="difficulty":
+        points("difficulty")
+    if difficulty=="n" and random.randint(1, 9)==1 and w!="difficulty":
+        points("difficulty")
 
 def choose_a_race():
     global p_max_health, p_max_mana, input_var, p_classes, p_AB, p_max_armor, p_DR, p_race, p_speed, p_lv, p_max_speed, p_max_race_charges, sleep_setting
@@ -913,7 +914,7 @@ def level_up():
                     break
                 else:
                     print("Not the code.")
-                    choose_a_race()
+                    level_up()
                     return
             else:
                 input_var="Shaman" #gets energy
@@ -938,7 +939,7 @@ def level_up():
                     break
                 else:
                     print("Not the code.")
-                    choose_a_race()
+                    level_up()
                     return
             else:
                 input_var="Hunter"
@@ -964,7 +965,7 @@ def level_up():
                     break
                 else:
                     print("Not the code.")
-                    choose_a_race()
+                    level_up()
                     return
             else:
                 input_var="Spellsword"
@@ -982,25 +983,56 @@ def level_up():
                 input_var=input_var.lower()
                 if input_var==".".join(str(int(part) + 8) for part in str(machine_id).split()):
                     input_var="Alchemist"
-                    p_max_health+=random.randint(25, 50)
-                    p_AB+=random.randint(1, 2)
-                    p_max_speed+=random.randint(1, 4)
-                    p_DR+=random.randint(2, 5)
-                    p_max_armor+=random.randint(0, 3)
-                    p_loot+=random.randint(3, 4)
+                    p_max_health+=random.randint(15, 35)
+                    p_AB+=random.randint(0, 3)
+                    p_max_speed+=random.randint(1, 3)
+                    p_DR+=random.randint(2, 3)
+                    p_max_armor+=random.randint(-1, 4)
+                    p_loot+=random.randint(2, 3)
+                    break
+                else:
+                    print("Not the code.")
+                    level_up()
+                    return
+            else:
+                input_var="Alchemist"
+                p_max_health+=random.randint(15, 35)
+                p_AB+=random.randint(0, 3)
+                p_max_speed+=random.randint(1, 3)
+                p_DR+=random.randint(2, 3)
+                p_max_armor+=random.randint(-1, 4)
+                p_loot+=random.randint(2, 3)
+                break
+        elif input_var=="pyromancer" or input_var=="py": #Premium
+            #if p_classes.count("Pyromancer")==0:
+                #machine_id = uuid.getnode()
+                #input_var=input("Put your Pyromancer code here:\n>>>")
+                #input_var=input_var.lower()
+                #if input_var==".".join(str(int(part) * 9) for part in str(machine_id).split()):
+            if True:
+                if True:
+                    input_var="Pyromancer"
+                    p_max_health+=random.randint(15, 25)
+                    p_AB+=random.randint(0, 2)
+                    p_max_speed+=random.randint(0, 2)
+                    p_max_mana+=random.randint(10, 15)
+                    p_DR+=random.randint(0, 1)
+                    p_max_armor+=random.randint(-1, 1)
+                    p_loot+=1#random.randint(2, 3)
                     break
                 else:
                     print("Not the code.")
                     choose_a_race()
                     return
             else:
-                input_var="Alchemist"
-                p_max_health+=random.randint(25, 50)
-                p_AB+=random.randint(1, 2)
-                p_max_speed+=random.randint(1, 4)
-                p_DR+=random.randint(2, 5)
-                p_max_armor+=random.randint(0, 3)
-                p_loot+=random.randint(3, 4)
+                input_var="Pyromancer"
+                p_max_health+=random.randint(15, 25)
+                p_AB+=random.randint(0, 2)
+                p_max_speed+=random.randint(0, 2)
+                p_max_mana+=random.randint(10, 15)
+                p_DR+=random.randint(0, 1)
+                p_max_armor+=random.randint(-1, 1)
+                p_loot+=1
                 break
         else:
             print("You did not select a class. Rebooting now...")
@@ -1053,6 +1085,11 @@ def level_up():
             input_var=input_var[:-1]
             input_var+=", "
         input_var+=(f'Lv{p_classes.count("Alchemist")} Alchemist ')
+    if p_classes.count("Pyromancer")>0:
+        if input_var!="":
+            input_var=input_var[:-1]
+            input_var+=", "
+        input_var+=(f'Lv{p_classes.count("Pyromancer")} Pyromancer ')
     input_var=input_var[:-1]
     input_var+=(f": Max health: {p_max_health}, Max mana: {p_max_mana}, Attack Bonus: {p_AB}, Armor: {p_max_armor}, Damage Reduction: {p_DR}, Speed: {p_max_speed}.")
     print(input_var)
@@ -1319,6 +1356,8 @@ def fight():
                     elif input_var==8: #Alchemist
                         scrambled = ".".join(str(int(part) + 8) for part in str(machine_id).split())
                         print(f"Here is your code for Alchemist: {scrambled}")
+                    elif input_var==9: #Pyromancer
+                        scrambled = ".".join(str(int(part) * 9) for part in str(machine_id).split())
                     sys.exit()
                 elif input_var=="no" or input_var=="n":
                     break
@@ -1484,11 +1523,11 @@ def mon1_turn():
         elif mon1_effect=="-5 AB":
             if random.randint(1, 5)==1:
                 input_var="The monster missed"
-                p_armor+=100000
+                p_armor+=10000000000
         else:
             if random.randint(1, 12)==1:
                 input_var="the monster missed"
-                p_armor+=100000
+                p_armor+=10000000000
         if mon1_AB+random.randint(-5, 7)>=p_armor:
             mon1_dmg=random.choice([0.5, 0.6, 0.7, 0.7, 0.9, 0.9, 1, 1, 1, 1, 1, 1, 1.1, 1.2, 1.7, 2])
             if p_effect=="HD1":
@@ -1572,7 +1611,7 @@ def mon1_turn():
                         print(f"The {mon1_race} hit you well, making you lose concentration and energy.")
                     if p_energy<0:
                         p_energy=0
-                if mon1_race[:5]=="Fairy" and p_mana>0 and ("Shaman" in p_classes or "Mage" in p_classes or "Cleric" in p_classes or "Spellsword" in p_classes):
+                if mon1_race[:5]=="Fairy" and p_mana>0 and ("Shaman" in p_classes or "Mage" in p_classes or "Cleric" in p_classes or "Spellsword" in p_classes or "Pyromancer" in p_classes):
                     p_mana-=random.uniform(p_lv*0.6, p_lv*1.8)
                     p_mana=int(p_mana)
                     print(f"The Fairy stole your mana. You're down to {p_mana} mana.")
@@ -1594,6 +1633,14 @@ def mon1_turn():
                     w-=1
                     mon1_hp-=random.randint(11, 17)+p_classes.count("Mage")
                 print("Your thorns from Ma3 worked!")
+            elif p_effect[:3]=="Py3":
+                input_var=len(p_effect)-4
+                while input_var>0:
+                    input_var-=1
+                    if "Fire" in mon1_perma_effect:
+                        mon1_perma_effect+="f"
+                    else:
+                        mon1_perma_effect="Firef"
             if p_effect=="HD1":
                 mon1_dmg=mon1_dmg*1.75
                 mon1_hp-=mon1_dmg
@@ -1610,8 +1657,8 @@ def mon1_turn():
             p_armor-=p_classes.count("Mage")*2
         if p_effect=="Ss5":
             p_DR-=p_classes.count("Spellsword")*5+p_lv*3
-    if p_armor>=99989:
-        p_armor-=100000
+    if p_armor>=9999999989:
+        p_armor-=10000000000
     if mon1_perma_effect=="Ma9":
         mon1_hp-=random.randint(3, 6)*p_lv
         if mon1_hp>0:
@@ -1723,7 +1770,7 @@ def p_turn(w):
     if p_effect!="trip" and p_health>0.001 and mon1_hp>0.001 and w!="NoXtrTurn":
         if "Shaman" in p_classes or "Monk" in p_classes or p_race=="Human Devotee":
             print(f"You have {p_energy} energy.")
-        if "Shaman" in p_classes or "Mage" in p_classes or "Cleric" in p_classes or "Spellsword" in p_classes:
+        if "Shaman" in p_classes or "Mage" in p_classes or "Cleric" in p_classes or "Spellsword" in p_classes or "Pyromancer" in p_classes:
             print(f"You have {p_mana} mana/{p_max_mana} mana.")
         p_turn_pt2()
 
@@ -1772,7 +1819,7 @@ def p_turn_pt2():
         input_var="Actions: Attack, Trip, Examine, Charge"
         if p_classes.count("Shaman")>0 or p_classes.count("Monk") or p_race=="Human Devotee":
             input_var+=", Energy"
-        if p_classes.count("Shaman")>0 or p_classes.count("Mage")>0 or p_classes.count("Spellsword")>0 or p_classes.count("Cleric")>0:
+        if p_classes.count("Shaman")>0 or p_classes.count("Mage")>0 or p_classes.count("Spellsword")>0 or p_classes.count("Cleric")>0 or p_classes.count("Pyromancer")>0:
             input_var+=", Spellbook"
         if p_classes.count("Alchemist"):
             input_var+=", Bottle"
@@ -1904,7 +1951,7 @@ def p_turn_pt2():
                         mon1_hp-=(random.randint(7, 12)*p_lv)
                         print("You hit!")
                     q=random.randint(1, 9)
-                    if (p_classes.count("Shaman")+p_classes.count("Mage")+p_classes.count("Spellsword")+p_classes.count("Cleric")<1) and q==1:
+                    if (p_classes.count("Shaman")+p_classes.count("Mage")+p_classes.count("Spellsword")+p_classes.count("Cleric")+p_classes.count("Pyromancer")<1) and q==1:
                         q=random.randint(2, 9)
                     if q==1:
                         p_mana+=2+p_max_mana//13
@@ -2053,6 +2100,8 @@ def p_turn_pt2():
                 p_AB_temp-=5
             elif p_effect[:3]=="Ma3":
                 p_armor+=p_classes.count("Mage")*2
+            elif p_effect[:3]=="Py5":
+                p_DR+=p_classes.count("Pyromancer")*8
             p_DR=p_DR//1
             q=(f"The {mon1_race}'s stats are {mon1_hp}hp/{mon1_max_hp}max, {mon1_AB}AB, {mon1_armor}")
             if mon1_effect=="trip":
@@ -2073,12 +2122,15 @@ def p_turn_pt2():
                 q+=("*")
             q+=(f" armor, {p_speed} speed")
             if p_DR!=0:
-                q+=(f", {p_DR}DR")
+                q+=(f", {p_DR}")
+                if p_effect[:3]=="Py5":
+                    q+="*"
+                q+=("DR")
                 if p_DR<0:
                     q+=(" (you have negative DR, so they get increased dmg)")
             if p_classes.count("Shaman")>0 or p_classes.count("Monk") or p_race=="Human Devotee":
                 q+=(f", {p_energy} energy")
-            if p_classes.count("Shaman")>0 or p_classes.count("Mage")>0 or p_classes.count("Spellsword")>0 or p_classes.count("Cleric")>0:
+            if p_classes.count("Shaman")>0 or p_classes.count("Mage")>0 or p_classes.count("Spellsword")>0 or p_classes.count("Cleric")>0 or p_classes.count("Pyromancer")>0:
                 q+=(f", {p_mana} mana/{p_max_mana} max mana")
             if p_max_race_charges>0:
                 q+=(f", {p_race_charges} charges/{p_max_race_charges} max charges")
@@ -2094,6 +2146,8 @@ def p_turn_pt2():
                 p_AB_temp+=5
             elif p_effect[:3]=="Ma3":
                 p_armor-=p_classes.count("Mage")*2
+            elif p_effect[:3]=="Py5":
+                p_DR-=p_classes.count("Pyromancer")*8
             p_turn_pt2()
             return
         elif input_var=="turns_lasted": #Debugging only
@@ -2345,7 +2399,7 @@ def p_turn_pt2():
                         q=random.randint(-1, 1)
                         input_var+=", Max Race Charges "
                         input_var+="+ "
-                        input_var+=str(abs(q))
+                        input_var+=str(q)
                         p_race_charges+=q
                         p_max_race_charges+=q
                     #
@@ -2374,11 +2428,11 @@ def p_turn_pt2():
                 if input_var=="throw":
                     mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
                     mon1_AB+=random.randint(2+p_classes.count("Alchemist")//4, 4+p_classes.count("Alchemist")//2)
-                    mon1_hp-=mon1_AB*random.randint(7, 9)
+                    mon1_hp-=mon1_AB*random.randint(6, 7)
                 elif input_var=="drink":
                     p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
                     p_AB_temp+=random.randint(2+p_classes.count("Alchemist")//4, 4+p_classes.count("Alchemist")//2)
-                    p_health-=p_AB_temp*random.randint(7, 8)
+                    p_health-=p_AB_temp*random.randint(6, 7)
                 print("Neutral: The potion gave lots of AB, but dealt damage scaling with the AB the target has.")
             elif q==10: #Neutral #\-/
                 if input_var=="throw":
@@ -2612,6 +2666,14 @@ def p_turn_pt2():
                     if p_effect=="Cl6" or p_effect=="Ss5":
                         mon1_hp-=(random.randint(4, 9)*p_lv)
                         print("You dealt extra damage with your buff!")
+                    elif p_effect=="Py3":
+                        if "f" in mon1_perma_effect:
+                            input_var=random.randint(1, 2)
+                            while input_var>0:
+                                input_var-=1
+                                mon1_perma_effect+="f"
+                        else:
+                            mon1_perma_effect="Fireff"
                     elif p_effect[:3]=="Dmg":
                         q=len(p_effect)
                         q-=1
@@ -2659,7 +2721,7 @@ def p_turn_pt2():
                         p_mana=p_max_mana
                 trip_chance=random.randint(1, 5)
                 if p_effect=="chrg":
-                    trip_chance=2
+                    trip_chance=5
                 if trip_chance!=1:
                     if mon1_effect!="trip":
                         mon1_armor-=2
@@ -2688,6 +2750,14 @@ def p_turn_pt2():
                     while input_var>0:
                         input_var-=1
                         mon1_hp-=random.randint(0, 1)*p_lv
+                elif p_effect=="Py3":
+                    if "f" in mon1_perma_effect:
+                        input_var=random.randint(0, 1)
+                        while input_var>0:
+                            input_var-=1
+                            mon1_perma_effect+="f"
+                    else:
+                        mon1_perma_effect="Firef"
             else:
                 print("You missed.")
             if p_effect=="chrg":
@@ -2909,7 +2979,7 @@ def p_turn_pt2():
                 print("You can not access energy-empowered abililties, because you don't have the Monk class. Rebooting now...")
                 p_turn_pt2()
                 return
-        elif (input_var=="spellbook" or input_var=="sb" or input_var=="s") and p_classes.count("Mage")+p_classes.count("Spellsword")+p_classes.count("Shaman")+p_classes.count("Cleric")>0:
+        elif (input_var=="spellbook" or input_var=="sb" or input_var=="s") and p_classes.count("Mage")+p_classes.count("Spellsword")+p_classes.count("Shaman")+p_classes.count("Cleric")+p_classes.count("Pyromancer")>0:
             q="Your spells are these:"
             if 'Mage' in p_classes:
                 q+="\nMagic Missile (Ma1): Costing "
@@ -2967,6 +3037,22 @@ def p_turn_pt2():
                 q+=" mana: Attack, and if you hit, it debuffs them permanentally, reducing their stats at the start of their turn. This can stack.\nBlade Bond (Ss5): Costing "
                 q+=str(p_classes.count("Spellsword")*3+p_lv*3)
                 q+=" mana: Gain a lot of DR, and you lose health every turn. You also deal more damage. This counts as a buff."
+            if 'Pyromancer' in p_classes:
+                q+="\nFire Blast (Py1): Costing "
+                q+=str(p_classes.count("Pyromancer"))
+                q+=" mana: Increase monster's fire counter by a small amount.\nFlame Strike (Py2): Costing "
+                q+=str(p_classes.count("Pyromancer")+p_lv)
+                q+=" mana: Deal damage to a monster scaling with their fire counter.\nFlame Coating (Py3): Costing "
+                q+=str(p_classes.count("Pyromancer")*2+p_lv-1)
+                q+=" mana: Gives you a buff that allows you to increase it's fire counter every time you attack, and less counters if you trip.\nFireball (Py4): Costing "
+                q+=str(p_classes.count("Pyromancer")*4+p_lv*2-1)
+                q+=" mana: It gives the monster some fire counters, then deals damage scaling with their fire counters.\nFire Shield (Py5): Costing "
+                q+=str(p_classes.count("Pyromancer")+p_lv-1)
+                q+=" mana: Increases your DR, and you can stack it. If you do, it gives fire counters when you're hit per time you cast it.\nResurgance (Py6): Costing "
+                q+=str(p_classes.count("Pyromancer")*2+1)
+                q+=" mana: Remove your opponent's fire counters to heal yourself far past your max hp.\nMelt Armor (Py7): Costing "
+                q+=str(p_classes.count("Pyromancer"))
+                q+=" mana: Reduce it's armor. Also requires 3-4 fire."
             q+="\nTo select an ability, type ma4 for Mage's 4th ability, cl2 for Cleric's 2nd ability, etc.\n>>>"
             q=input(q)
             q=q.lower()
@@ -3324,10 +3410,107 @@ def p_turn_pt2():
                     print("You do not have enough mana for Ss5.")
                     p_turn_pt2()
                     return
+            elif q=="py1" and p_classes.count("Pyromancer")>0:
+                if p_mana>=p_classes.count("Pyromancer"):
+                    p_mana-=p_classes.count("Pyromancer")
+                    if "Fire" in mon1_perma_effect:
+                        input_var=random.randint(1, 3)
+                        while input_var>0:
+                            input_var-=1
+                            mon1_perma_effect+="f"
+                    else:
+                        mon1_perma_effect="fff"
+                    input_var=len(mon1_perma_effect)-4
+                    print(f"You increased it's fire counter! It's up to {input_var} fire!")
+                else:
+                    print("You do not have enough mana for Py1.")
+                    p_turn_pt2()
+                    return
+            elif q=="py2" and p_classes.count("Pyromancer")>0:
+                if p_mana>=p_classes.count("Pyromancer")+p_lv:
+                    p_mana-=p_classes.count("Pyromancer")+p_lv
+                    mon1_hp-=(random.randint(3, 4)*mon1_perma_effect.count("f")*p_classes.count("Pyromancer"))
+                    print("You hit!")
+                else:
+                    print("You do not have enough mana for Py2.")
+                    p_turn_pt2()
+                    return
+            elif q=="py3" and p_classes.count("Pyromancer")>0:
+                if p_mana>=p_classes.count("Pyromancer")*2+p_lv-1:
+                    p_mana-=p_classes.count("Pyromancer")*2+p_lv-1
+                    p_effect="Py3"
+                    print("You cast Flame Coating!")
+                else:
+                    print("You do not have enough mana for Py3.")
+                    p_turn_pt2()
+                    return
+            elif q=="py4" and p_classes.count("Pyromancer")>0:
+                if p_mana>=p_classes.count("Pyromancer")*4+p_lv*2-1:
+                    p_mana-=p_classes.count("Pyromancer")*4+p_lv*2-1
+                    if "Fire" not in mon1_perma_effect:
+                        mon1_perma_effect="fire"
+                    input_var=random.randint(3, 4)
+                    while input_var>0:
+                        input_var-=1
+                        mon1_perma_effect+="f"
+                    mon1_hp-=(random.randint(5, 6)*mon1_perma_effect.count("f")*p_classes.count("Pyromancer"))
+                    print("You cast FIREBALL!!!")
+                else:
+                    print("You do not have enough mana for Py4.")
+                    p_turn_pt2()
+                    return
+            elif q=="py5" and p_classes.count("Pyromancer")>0:
+                if p_mana>=p_classes.count("Pyromancer")+p_lv-1:
+                    p_mana-=p_classes.count("Pyromancer")+p_lv-1
+                    if "Py5" in p_effect:
+                        p_effect+="q"
+                    else:
+                        p_effect="Py5"
+                    if len(p_effect)-3>0:
+                        input_var=" You've cast it "
+                        input_var+=len(p_effect)-3
+                        input_var+=" times!"
+                    else:
+                        input_var=""
+                    print(f"You cast Fire Shield!{input_var}")
+                else:
+                    print("You do not have enough mana for Py5.")
+                    p_turn_pt2()
+                    return
+            elif q=="py6" and p_classes.count("Pyromancer")>0:
+                if p_mana>=p_classes.count("Pyromancer")*2+1:
+                    p_mana-=p_classes.count("Pyromancer")*2+1
+                    p_health+=random.randint(28, 33)*(len(mon1_perma_effect)-4)
+                    mon1_perma_effect="non"
+                    print(f"You cast Resurgance! You're up to {p_health}/{p_max_health}!")
+                else:
+                    print("You do not have enough mana for Py6.")
+                    p_turn_pt2()
+                    return
+            elif q=="py7" and p_classes.count("Pyromancer")>0:
+                if p_mana>=p_classes.count("Pyromancer"):
+                    if "Fire" in mon1_perma_effect and len(mon1_perma_effect)>random.randint(6, 7):
+                        p_mana-=p_classes.count("Pyromancer")
+                        mon1_armor-=random.randint(1, 3+p_classes.count("Pyromancer")//random.randint(5, 7))
+                    else:
+                        print("You have enough mana, but it doesn't have enough fire.")
+                        p_turn_pt2()
+                        return
+                else:
+                    print("You do not have enough mana for Py7.")
+                    p_turn_pt2()
+                    return
             else:
                 print("You entered a wrong answer. Rebooting now...")
                 p_turn_pt2()
                 return
+            #Fire Blast (Py1): Increase monster's fire counter by a small amount.
+            #Flame Strike (Py2): Deal damage to a monster scaling with their fire counter.
+            #Flame Coating (Py3): Gives you a buff that allows you to increase it's fire counter every time you attack, and less counters if you trip.
+            #Fireball (Py4): It gives the monster some fire counters, then deals damage scaling with their fire counters.
+            #Fire Shield (Py5): Increases your DR, and you can stack it. If you do, it gives fire counters scaling with the amount times you cast it.
+            #Resurgance (Py6): Remove your opponent's fire counters to heal yourself far past your max hp.
+            #Melt Armor (Py7): Reduce it's armor. Also requires a high fire counter on the enemy.
         else:
             print("These are what the actions do:\n-Attack: Just a base attack, a good chance to hit, and a good amount of damage.\n-Trip: This will knock the target prone, effectivally skipping their turn. However, this does have a harder chance to hit, and deals less damage. If they get up,\nthey have a small chance to attack without penalty, but most of the time, they'll get a penalty of 5, so basically, you get +5 armor.\n-Examine: It just displays their stats. It does give your turn back.\n-Charge: This doesn't give extra damage, instead it gives +5 to hit. Keep in mind, this does skip your turn.")
             p_turn_pt2()
