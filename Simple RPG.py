@@ -1,43 +1,3 @@
-#Hello, this is a simple RPG. Enjoy!
-
-
-#Note to self -5/13/2025. In balancing stuff since I put nums in, I've realized that the elf is weak bc it was supposed to get racial spells. The drow and the high will both get extra spells, but the others will be normal subraces.
-#Note to self -7/28/2025. Thank you for asking about myself! I'm currently driving in our RV, writing this note! I don't have any internet, so this is the best that I can do. Anyway, if you ever add a buff, copper dragonling's breath has a chance to give any random effect, so put it there if you've made one recently.
-
-
-#For other_coders/future_self: Whenever an effect from a monster or yourself is set to "non", instead of "none", that's because the longer the effect is, the lower chance that the monster trip/debuffs you.
-    #The above only applies if the stat is above 3 characters.
-
-
-
-#TO DO:
-#ADD A PVP MODE
-    #It'll be two player, and winning increases their win variable by 1. When a player loses, both players will get a level, and 0-3 stat points randomly, the loser getting +1 stat point, so max 4. Once both players get to level 11, its game over.
-#Backgrounds can give special actions, this is a high maybe. (Say the sentence outloud if it doesn't make sense.)
-#Add like amulets. They're buffs that you get at every 5 levels. Not all will give you a spell, but one could be "summon undead" or "imbue sword", the latter one giving your main attack a random effect, one of them tripping, but if they're already tripped, they get minus speed.
-    #Ooooh! What if there was an amulet that encourages multiclassing! Like... instead of leveling when you recieve this amulet, you may instead recieve 2 random levels/2 levels of you choice but it can't be the one that you have the most of. Wait a minute. BRO SPELLS ARE GOING TO NNEEEEDD REBALANCING THEN because like cleric, I think, gets SO much more expensive if you multiclass.
-        #TLDR: Go make multi-classing for spellcasters an option. For ex, mage doesn't rly need multiclassing bc no one will multiclass it. But a cleric/spellsword combo? Oh yeah ppl will be multiclassing that.
-#Questing? There could be NPCs that would give you a quest like "kill an orc".
-#Shaman needs reworking. (Monk too.) More spells/abilities, or just a whole new idea, because there are cleric and spellsword for hybrids, is another hybrid really nessesary?
-#Alc Brewing needs reworking. Maybe I make it an ability that only stacks like 3-4 times. It needs reworking because it's almost always better (at least in the short term) to drink multiple potions, rather than brewing them. And I don't want brewing to be a tool only used for milking.
-    #Also, as of writing this note, Alc wants a class that actually... works with alc, rather than gives it more abilities. It doesn't work with MF bc it already has healing, and doesn't need mana. AA doesn't work for the same reasons. Thus, dragonling is the only good race for it. (Personally, I like using Orc with it, but just bc I like hybrids.)
-#Add another effect to augury.
-
-
-#Premium Races:
-#-Shifter, gives a rage buff that increases damage greatly. Also mostly gives AB, and some speed.
-#Make a lava dwarf, and add a new elf or two. All of these races use mana for their actions, unlike aasimar, mind flayer, and dragonling
-
-
-#Premium Classes:
-#-Electrocutioner, partially based off the electricity unit I just finished in Physics, over time, they can add more positive charges or negitave charges to itself and the target. Once the player gets enough + and the target gets enough -, then they can activate abilities, or vice versa, the player gets enough - and the target gets enough +. A cool twist to this class would be to use its whole turn to give these charges.
-#-Pyrotechnic, gives a perma fire buff, and all other attacks deal more damage. Unknown if I want to make it a mana user. If it is, it's 3 spells are these: they get a buff where they get fire every turn, deal damage scaling with fire, and a spell to just give them fire.
-#-Tinkerer, it gets a new ability that gives it like 3 modification points. Using those, you can [un]equip modifications like "reduce speed on hit", "deal extra damage" etc. Maybe uses spells like Artificer.
-#-Boomerang, it can throw a boomerang, and it can't throw it again until the player uses a turn to retrieve it or like 3-5 turns pass. It's scaling is bassed on the level of boomerang levels you have, although it does scale even if you multiclass.
-#-Enchanter, idk what it'll do, but it definitally deals with effects and debuffs. Spells.
-
-#-Artificer?, my brother wants a class all about DOT, so this class would spend time setting up drones that would attack. I'd consider this class more "makable?" if there were more than 2 different drone ideas that he gave me. When I wrote this idea down, I now realise that it's supposed to counter the troll race.... The reason I made monster races is to counter different build ideas, not build ideas countering monsters.
-
 import sys
 import random
 import time
@@ -114,7 +74,7 @@ def settings(w):
                 difficulty="h"
                 break
             else:
-                print("The only acceptable inputs are 'yes' and 'no'.")
+                print("The only acceptable inputs are 'easy', 'normal' and 'hard'.")
     while True:
         input_var=input("Do you want there to be pause before selecting races/classes/points? (This is used to not make mistakes while spamming.)\n>>>")
         input_var=input_var.lower()
@@ -256,6 +216,11 @@ def town():
                 input_var=input_var[:-1]
                 input_var+=", "
             input_var+=(f'Lv{p_classes.count("Alchemist")} Alchemist ')
+        if p_classes.count("Pyromancer")>0:
+            if input_var!="":
+                input_var=input_var[:-1]
+                input_var+=", "
+            input_var+=(f'Lv{p_classes.count("Pyromancer")} Pyromancer ')
         input_var=input_var[:-1]
         print(input_var)
     elif input_var=="leave" or input_var=="l":
@@ -535,7 +500,7 @@ def points(w):
         p_max_speed+=random.randint(1, 3)
         print("You put your points into speed!")
     elif input_var=="loot" or input_var=="l":
-        p_loot+=random.randint(1, 4)
+        p_loot+=random.randint(2, 5)
         print("You put your points into Loot!")
     else:
         if w=="shop":
@@ -678,7 +643,7 @@ def choose_a_race():
             p_max_mana+=random.randint(4, 8)
             p_max_health+=random.randint(40, 70)
             p_max_armor-=random.randint(0, 2)
-            p_AB-=random.randint(0, 1)
+            p_AB-=random.randint(0, 2)
             p_max_race_charges+=random.choice([4, 5, 5, 6, 6, 7])
         else:
             print("Not the code.")
@@ -846,7 +811,7 @@ def level_up():
         input_var=input("Which class would you like to level up? The options are Berserker, Fighter, Cleric, Tank, Monk, Mage.\n>>>")
         input_var=input_var.lower()
         if input_var=="premium":
-            input_var=input("Which class would you like to level up? The options are Berserker, Fighter, Cleric, Tank, Monk, Mage, Shaman, Hunter, Spellsword, Alchemist.\n>>>")
+            input_var=input("Which class would you like to level up? The options are Berserker, Fighter, Cleric, Tank, Monk, Mage, Shaman, Hunter, Spellsword, Alchemist, Pyromancer.\n>>>")
             input_var=input_var.lower()
         if input_var=="berserker" or input_var=="b":
             input_var="Berserker"
@@ -1004,19 +969,17 @@ def level_up():
                 p_loot+=random.randint(2, 3)
                 break
         elif input_var=="pyromancer" or input_var=="py": #Premium
-            #if p_classes.count("Pyromancer")==0:
-                #machine_id = uuid.getnode()
-                #input_var=input("Put your Pyromancer code here:\n>>>")
-                #input_var=input_var.lower()
-                #if input_var==".".join(str(int(part) * 9) for part in str(machine_id).split()):
-            if True:
-                if True:
+            if p_classes.count("Pyromancer")==0:
+                machine_id = uuid.getnode()
+                input_var=input("Put your Pyromancer code here:\n>>>")
+                input_var=input_var.lower()
+                if input_var==".".join(str(int(part) * 9) for part in str(machine_id).split()):
                     input_var="Pyromancer"
-                    p_max_health+=random.randint(15, 25)
-                    p_AB+=random.randint(0, 2)
-                    p_max_speed+=random.randint(0, 2)
-                    p_max_mana+=random.randint(10, 15)
-                    p_DR+=random.randint(0, 1)
+                    p_max_health+=random.randint(22, 29)
+                    p_AB+=random.randint(1, 2)
+                    p_max_speed+=random.randint(2, 4)
+                    p_max_mana+=random.randint(11, 15)
+                    p_DR+=random.randint(2, 4)
                     p_max_armor+=random.randint(-1, 1)
                     p_loot+=1#random.randint(2, 3)
                     break
@@ -1209,8 +1172,8 @@ def create_monster():
         elif input_var==3:
             mon1_race+=" Assassin"
             mon1_AB=mon1_AB*random.randint(130, 160)/100
-            mon1_armor=mon1_armor*random.randint(105, 120)/100
-            mon1_max_hp=mon1_max_hp*random.randint(125, 145)/100
+            mon1_armor=mon1_armor*random.randint(90, 115)/100
+            mon1_max_hp=mon1_max_hp*random.randint(120, 140)/100
             mon1_spd=mon1_spd*random.randint(170, 265)/100
             print(f"{mon1_race} ambushes you and inflicts poison.")
         elif input_var==4:
@@ -1275,22 +1238,27 @@ def fight():
             if revival_cooldown<random.randint(0, 1): #should this be random, or just 1 always?
                 revival_cooldown=1
             while revival_cooldown>0:
-                if revival_cooldown==1:
+                revival_cooldown-=1
+                print(revival_cooldown)
+                if revival_cooldown<=1:
                     print('The "corpse" appears to be moving.')
                 else:
                     print("The witch's corpse lies on the ground.")
-                revival_cooldown-=1
+                print(revival_cooldown)
                 p_turn("non")
             print("The witch rises from the ground, eyes glowing purple, as an explosion blasts you away.")
             mon1_max_hp=mon1_max_hp*2
             mon1_hp+=mon1_max_hp
-            input_var=random.randint(25, 42)
+            input_var=p_lv
+            revival_cooldown=0
             if mon1_hp<=0:
                 print("The explosion didn't work because you overkilled it!")
                 input_var=0
             while input_var>0:
                 input_var-=1
-                p_health-=p_lv
+                revival_cooldown-=random.randint(21, 26)
+            revival_cooldown=abs(revival_cooldown)
+            p_health-=revival_cooldown-p_DR
             mon1_AB+=random.randint(8, 12)*p_lv
             mon1_spd+=random.randint(7, 9)*p_lv
             while p_health>0 and mon1_hp>0:
@@ -1465,13 +1433,13 @@ def mon1_turn():
         if g==1:
             if mon1_effect=="trip":
                 mon1_effect="non"
-                print("The {mon1_race}'s ability untripped it.")
+                print(f"The {mon1_race}'s ability untripped it.")
             if mon1_hp>=mon1_max_hp//2:
                 mon1_hp=mon1_max_hp*1.25
-                print("The {mon1_race}'s ability healed it past full health.")
+                print(f"The {mon1_race}'s ability healed it past full health.")
             else:
                 mon1_hp=mon1_max_hp
-                print("The {mon1_race}'s ability healed it to full health.")
+                print(f"The {mon1_race}'s ability healed it to full health.")
             mon1_hp=int(mon1_hp)
         else:
             g=1
@@ -1517,6 +1485,8 @@ def mon1_turn():
             p_armor+=p_classes.count("Mage")*2
         elif p_effect=="Ss5":
             p_DR+=p_classes.count("Spellsword")*5+p_lv*3
+        elif p_effect[:3]=="Py5":
+            p_DR+=p_classes.count("Pyromancer")*8
         if mon1_effect=="Cl5" and random.randint(1, 3)>1:
             mon1_spd-=random.randint(1, 2)
             print("Their speed has been reduced!")
@@ -1540,7 +1510,7 @@ def mon1_turn():
                     if mon1_race[:5]=="Fairy":
                         mon1_dmg=mon1_dmg/2
                     if "Jugernaut" in mon1_race:
-                        mon1_dmg*=3.5
+                        mon1_dmg*=3
                     if mon1_dmg<=1:
                         mon1_dmg=p_lv*1.5
                         mon1_dmg=mon1_dmg//1
@@ -1557,7 +1527,7 @@ def mon1_turn():
                     if mon1_race[:5]=="Fairy":
                         mon1_dmg=mon1_dmg/2
                     if "Jugernaut" in mon1_race:
-                        mon1_dmg*=3.5
+                        mon1_dmg*=3
                     if mon1_dmg<=1:
                         mon1_dmg=p_lv*random.randint(6, 8)
                     if "Jugernaut" in mon1_race and random.randint(0, 1)==1:
@@ -1573,7 +1543,7 @@ def mon1_turn():
                     if mon1_race[:5]=="Fairy":
                         mon1_dmg=mon1_dmg/2
                     if "Jugernaut" in mon1_race:
-                        mon1_dmg*=3.5
+                        mon1_dmg*=3
                     if mon1_dmg<=1:
                         mon1_dmg=p_lv*random.randint(2, 7)
                     if "Jugernaut" in mon1_race and random.randint(0, 1)==1:
@@ -1633,14 +1603,16 @@ def mon1_turn():
                     w-=1
                     mon1_hp-=random.randint(11, 17)+p_classes.count("Mage")
                 print("Your thorns from Ma3 worked!")
-            elif p_effect[:3]=="Py3":
-                input_var=len(p_effect)-4
+            elif p_effect[:3]=="Py5" and len(p_effect)>3:
+                input_var=len(p_effect)-3
                 while input_var>0:
                     input_var-=1
                     if "Fire" in mon1_perma_effect:
                         mon1_perma_effect+="f"
                     else:
                         mon1_perma_effect="Firef"
+                input_var=len(mon1_perma_effect)-4
+                print(f"The monster took some fire damage. It's up to {input_var} fire!")
             if p_effect=="HD1":
                 mon1_dmg=mon1_dmg*1.75
                 mon1_hp-=mon1_dmg
@@ -1655,8 +1627,10 @@ def mon1_turn():
                 print(input_var)
         if p_effect[:3]=="Ma3":
             p_armor-=p_classes.count("Mage")*2
-        if p_effect=="Ss5":
+        elif p_effect=="Ss5":
             p_DR-=p_classes.count("Spellsword")*5+p_lv*3
+        elif p_effect[:3]=="Py5":
+            p_DR-=p_classes.count("Pyromancer")*8
     if p_armor>=9999999989:
         p_armor-=10000000000
     if mon1_perma_effect=="Ma9":
@@ -1767,7 +1741,7 @@ def p_turn(w):
             input_var-=1
             p_health-=p_lv
         print("The Assassin poison damages you!")
-    if p_effect!="trip" and p_health>0.001 and mon1_hp>0.001 and w!="NoXtrTurn":
+    if p_effect!="trip" and p_health>0.001 and w!="NoXtrTurn":
         if "Shaman" in p_classes or "Monk" in p_classes or p_race=="Human Devotee":
             print(f"You have {p_energy} energy.")
         if "Shaman" in p_classes or "Mage" in p_classes or "Cleric" in p_classes or "Spellsword" in p_classes or "Pyromancer" in p_classes:
@@ -2436,6 +2410,7 @@ def p_turn_pt2():
                 print("Neutral: The potion gave lots of AB, but dealt damage scaling with the AB the target has.")
             elif q==10: #Neutral #\-/
                 if input_var=="throw":
+                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
                     if mon1_effect=="trip":
                         mon1_armor+=2
                     input_var=mon1_AB
@@ -2445,6 +2420,7 @@ def p_turn_pt2():
                         mon1_armor-=2
                     input_var="throw"
                 elif input_var=="drink":
+                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
                     input_var=p_armor
                     p_armor=p_AB_temp
                     p_AB_temp=input_var
@@ -2674,6 +2650,8 @@ def p_turn_pt2():
                                 mon1_perma_effect+="f"
                         else:
                             mon1_perma_effect="Fireff"
+                        input_var=len(mon1_perma_effect)-4
+                        print(f"It caught on fire from your attacks! It's up to {input_var} fire counters!")
                     elif p_effect[:3]=="Dmg":
                         q=len(p_effect)
                         q-=1
@@ -3047,7 +3025,7 @@ def p_turn_pt2():
                 q+=" mana: Gives you a buff that allows you to increase it's fire counter every time you attack, and less counters if you trip.\nFireball (Py4): Costing "
                 q+=str(p_classes.count("Pyromancer")*4+p_lv*2-1)
                 q+=" mana: It gives the monster some fire counters, then deals damage scaling with their fire counters.\nFire Shield (Py5): Costing "
-                q+=str(p_classes.count("Pyromancer")+p_lv-1)
+                q+=str(p_classes.count("Pyromancer")+p_lv//4)
                 q+=" mana: Increases your DR, and you can stack it. If you do, it gives fire counters when you're hit per time you cast it.\nResurgance (Py6): Costing "
                 q+=str(p_classes.count("Pyromancer")*2+1)
                 q+=" mana: Remove your opponent's fire counters to heal yourself far past your max hp.\nMelt Armor (Py7): Costing "
@@ -3419,7 +3397,7 @@ def p_turn_pt2():
                             input_var-=1
                             mon1_perma_effect+="f"
                     else:
-                        mon1_perma_effect="fff"
+                        mon1_perma_effect="Firefff"
                     input_var=len(mon1_perma_effect)-4
                     print(f"You increased it's fire counter! It's up to {input_var} fire!")
                 else:
@@ -3448,27 +3426,27 @@ def p_turn_pt2():
                 if p_mana>=p_classes.count("Pyromancer")*4+p_lv*2-1:
                     p_mana-=p_classes.count("Pyromancer")*4+p_lv*2-1
                     if "Fire" not in mon1_perma_effect:
-                        mon1_perma_effect="fire"
-                    input_var=random.randint(3, 4)
+                        mon1_perma_effect="Fire"
+                    input_var=random.randint(2, 3)
                     while input_var>0:
                         input_var-=1
                         mon1_perma_effect+="f"
-                    mon1_hp-=(random.randint(5, 6)*mon1_perma_effect.count("f")*p_classes.count("Pyromancer"))
+                    mon1_hp-=(random.randint(3, 6)*mon1_perma_effect.count("f")*p_classes.count("Pyromancer"))
                     print("You cast FIREBALL!!!")
                 else:
                     print("You do not have enough mana for Py4.")
                     p_turn_pt2()
                     return
             elif q=="py5" and p_classes.count("Pyromancer")>0:
-                if p_mana>=p_classes.count("Pyromancer")+p_lv-1:
-                    p_mana-=p_classes.count("Pyromancer")+p_lv-1
+                if p_mana>=p_classes.count("Pyromancer")+p_lv//4:
+                    p_mana-=p_classes.count("Pyromancer")+p_lv//4
                     if "Py5" in p_effect:
                         p_effect+="q"
                     else:
                         p_effect="Py5"
-                    if len(p_effect)-3>0:
+                    if int(len(p_effect))-3>0:
                         input_var=" You've cast it "
-                        input_var+=len(p_effect)-3
+                        input_var+=str(len(p_effect)-3)
                         input_var+=" times!"
                     else:
                         input_var=""
@@ -3480,8 +3458,9 @@ def p_turn_pt2():
             elif q=="py6" and p_classes.count("Pyromancer")>0:
                 if p_mana>=p_classes.count("Pyromancer")*2+1:
                     p_mana-=p_classes.count("Pyromancer")*2+1
-                    p_health+=random.randint(28, 33)*(len(mon1_perma_effect)-4)
+                    p_health+=random.randint(34, 40)*(len(mon1_perma_effect)-4)
                     mon1_perma_effect="non"
+                    p_health=int(p_health)
                     print(f"You cast Resurgance! You're up to {p_health}/{p_max_health}!")
                 else:
                     print("You do not have enough mana for Py6.")
@@ -3489,13 +3468,18 @@ def p_turn_pt2():
                     return
             elif q=="py7" and p_classes.count("Pyromancer")>0:
                 if p_mana>=p_classes.count("Pyromancer"):
-                    if "Fire" in mon1_perma_effect and len(mon1_perma_effect)>random.randint(6, 7):
+                    if "Fire" in mon1_perma_effect and len(mon1_perma_effect)>5:
                         p_mana-=p_classes.count("Pyromancer")
-                        mon1_armor-=random.randint(1, 3+p_classes.count("Pyromancer")//random.randint(5, 7))
+                        mon1_armor-=random.randint(2, 3+p_classes.count("Pyromancer")//random.randint(4, 5))
                     else:
                         print("You have enough mana, but it doesn't have enough fire.")
                         p_turn_pt2()
                         return
+                    if mon1_effect=="trip":
+                        mon1_armor+=2
+                    print(f"Their armor is melted! It has {mon1_armor} armor!")
+                    if mon1_effect=="trip":
+                        mon1_armor-=2
                 else:
                     print("You do not have enough mana for Py7.")
                     p_turn_pt2()
@@ -3536,6 +3520,30 @@ while True:
         print("The required inputs are either 'yes' or 'no'.")
 settings("First")
 choose_a_race()
+while False:
+    p_max_health=466
+    p_max_mana=233
+    p_AB=17
+    p_max_armor=5
+    p_max_DR=142
+    p_max_speed=39
+    quest="0 Monster -> 2 point(s)"
+    p_lv=12
+    p_race="High Elf"
+    p_classes=["Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer", "Pyromancer"]
+    rest()
+    while True:
+        create_monster()
+        fight()
+        more_fights=random.uniform(-1, 1+p_lv/random.randint(2, 5))
+        if p_lv%12==0:
+            more_fights=0
+        while more_fights>0:
+            more_fights-=1
+            create_monster()
+            rest()
+            fight()
+        level_up()
 while True:
     level_up()
     create_monster()
