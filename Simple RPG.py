@@ -9,36 +9,6 @@
     #The above only applies if the stat is above 3 characters.
 
 
-
-#TO DO:
-#ADD A PVP MODE
-    #It'll be two player, and winning increases their win variable by 1. When a player loses, both players will get a level, and 0-3 stat points randomly, the loser getting +1 stat point, so max 4. Once both players get to level 11, its game over.
-#Backgrounds can give special actions, this is a high maybe. (Say the sentence outloud if it doesn't make sense.)
-#Add like amulets. They're buffs that you get at every 5 levels. Not all will give you a spell, but one could be "summon undead" or "imbue sword", the latter one giving your main attack a random effect, one of them tripping, but if they're already tripped, they get minus speed.
-    #Ooooh! What if there was an amulet that encourages multiclassing! Like... instead of leveling when you recieve this amulet, you may instead recieve 2 random levels/2 levels of you choice but it can't be the one that you have the most of. Wait a minute. BRO SPELLS ARE GOING TO NNEEEEDD REBALANCING THEN because like cleric, I think, gets SO much more expensive if you multiclass.
-        #TLDR: Go make multi-classing for spellcasters an option. For ex, mage doesn't rly need multiclassing bc no one will multiclass it. But a cleric/spellsword combo? Oh yeah ppl will be multiclassing that.
-#Questing? There could be NPCs that would give you a quest like "kill an orc".
-#Shaman needs reworking. (Monk too.) More spells/abilities, or just a whole new idea, because there are cleric and spellsword for hybrids, is another hybrid really nessesary?
-#Alc Brewing needs reworking. Maybe I make it an ability that only stacks like 3-4 times. It needs reworking because it's almost always better (at least in the short term) to drink multiple potions, rather than brewing them. And I don't want brewing to be a tool only used for milking.
-    #Also, as of writing this note, Alc wants a class that actually... works with alc, rather than gives it more abilities. It doesn't work with MF bc it already has healing, and doesn't need mana. AA doesn't work for the same reasons. Thus, dragonling is the only good race for it. (Personally, I like using Orc with it, but just bc I like hybrids.)
-#Add another effect to augury.
-#Add a backpack, and it's also an action like examine; it displays your ingredients. Lizard tails, Rat fur, Dandilion seed, Wolf ear, Dragon blood. They stay in-between fights, and you can craft a maximum of 3 potions, and equip 1 in your belt. Having a majority of hunter increases that, and you can buy a potion belt, increasing it by another one.
-
-
-#Premium Races:
-#-Shifter, gives a rage buff that increases damage greatly. Also mostly gives AB, and some speed.
-#Make a lava dwarf, and add a new elf or two. All of these races use mana for their actions, unlike aasimar, mind flayer, and dragonling
-
-
-#Premium Classes:
-#-Electrocutioner, partially based off the electricity unit I just finished in Physics, over time, they can add more positive charges or negitave charges to itself and the target. Once the player gets enough + and the target gets enough -, then they can activate abilities, or vice versa, the player gets enough - and the target gets enough +. A cool twist to this class would be to use its whole turn to give these charges.
-#-Tinkerer, it gets a new ability that gives it like 3 modification points. Using those, you can [un]equip modifications like "reduce speed on hit", "deal extra damage" etc. Maybe uses spells like Artificer.
-#-Boomerang, it can throw a boomerang, and it can't throw it again until the player uses a turn to retrieve it or like 3-5 turns pass. It's scaling is bassed on the level of boomerang levels you have, although it does scale even if you multiclass.
-#-Enchanter, idk what it'll do, but it definitally deals with effects and debuffs. Spells.
-#-Time master, instead of getting trip, he just controls time. I got the inspiration after I played alchemist and it rolled into "highest person w/ speed loses it, highest person w/ speed gets more turns" and I rolled into it several times, and somehow I did enough damage to put it below negative health, but it was still my turn so I could overkill it even more.
-
-#-Artificer?, my brother wants a class all about DOT, so this class would spend time setting up drones that would attack. I'd consider this class more "makable?" if there were more than 2 different drone ideas that he gave me. When I wrote this idea down, I now realise that it's supposed to counter the troll race.... The reason I made monster races is to counter different build ideas, not build ideas countering monsters.
-
 import sys
 import random
 import time
