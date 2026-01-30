@@ -1,3 +1,44 @@
+#Hello, this is a simple RPG. Enjoy!
+
+
+#Note to self -5/13/2025. In balancing stuff since I put nums in, I've realized that the elf is weak bc it was supposed to get racial spells. The drow and the high will both get extra spells, but the others will be normal subraces.
+#Note to self -7/28/2025. Thank you for asking about myself! I'm currently driving in our RV, writing this note! I don't have any internet, so this is the best that I can do. Anyway, if you ever add a buff, copper dragonling's breath has a chance to give any random effect, so put it there if you've made one recently.
+
+
+#For other_coders/future_self: Whenever an effect from a monster or yourself is set to "non", instead of "none", that's because the longer the effect is, the lower chance that the monster trip/debuffs you.
+    #The above only applies if the stat is above 3 characters.
+
+
+
+#TO DO:
+#ADD A PVP MODE
+    #It'll be two player, and winning increases their win variable by 1. When a player loses, both players will get a level, and 0-3 stat points randomly, the loser getting +1 stat point, so max 4. Once both players get to level 11, its game over.
+#Backgrounds can give special actions, this is a high maybe. (Say the sentence outloud if it doesn't make sense.)
+#Add like amulets. They're buffs that you get at every 5 levels. Not all will give you a spell, but one could be "summon undead" or "imbue sword", the latter one giving your main attack a random effect, one of them tripping, but if they're already tripped, they get minus speed.
+    #Ooooh! What if there was an amulet that encourages multiclassing! Like... instead of leveling when you recieve this amulet, you may instead recieve 2 random levels/2 levels of you choice but it can't be the one that you have the most of. Wait a minute. BRO SPELLS ARE GOING TO NNEEEEDD REBALANCING THEN because like cleric, I think, gets SO much more expensive if you multiclass.
+        #TLDR: Go make multi-classing for spellcasters an option. For ex, mage doesn't rly need multiclassing bc no one will multiclass it. But a cleric/spellsword combo? Oh yeah ppl will be multiclassing that.
+#Questing? There could be NPCs that would give you a quest like "kill an orc".
+#Shaman needs reworking. (Monk too.) More spells/abilities, or just a whole new idea, because there are cleric and spellsword for hybrids, is another hybrid really nessesary?
+#Alc Brewing needs reworking. Maybe I make it an ability that only stacks like 3-4 times. It needs reworking because it's almost always better (at least in the short term) to drink multiple potions, rather than brewing them. And I don't want brewing to be a tool only used for milking.
+    #Also, as of writing this note, Alc wants a class that actually... works with alc, rather than gives it more abilities. It doesn't work with MF bc it already has healing, and doesn't need mana. AA doesn't work for the same reasons. Thus, dragonling is the only good race for it. (Personally, I like using Orc with it, but just bc I like hybrids.)
+#Add another effect to augury.
+#Add a backpack, and it's also an action like examine; it displays your ingredients. Lizard tails, Rat fur, Dandilion seed, Wolf ear, Dragon blood. They stay in-between fights, and you can craft a maximum of 3 potions, and equip 1 in your belt. Having a majority of hunter increases that, and you can buy a potion belt, increasing it by another one.
+
+
+#Premium Races:
+#-Shifter, gives a rage buff that increases damage greatly. Also mostly gives AB, and some speed.
+#Make a lava dwarf, and add a new elf or two. All of these races use mana for their actions, unlike aasimar, mind flayer, and dragonling
+
+
+#Premium Classes:
+#-Electrocutioner, partially based off the electricity unit I just finished in Physics, over time, they can add more positive charges or negitave charges to itself and the target. Once the player gets enough + and the target gets enough -, then they can activate abilities, or vice versa, the player gets enough - and the target gets enough +. A cool twist to this class would be to use its whole turn to give these charges.
+#-Tinkerer, it gets a new ability that gives it like 3 modification points. Using those, you can [un]equip modifications like "reduce speed on hit", "deal extra damage" etc. Maybe uses spells like Artificer.
+#-Boomerang, it can throw a boomerang, and it can't throw it again until the player uses a turn to retrieve it or like 3-5 turns pass. It's scaling is bassed on the level of boomerang levels you have, although it does scale even if you multiclass.
+#-Enchanter, idk what it'll do, but it definitally deals with effects and debuffs. Spells.
+#-Time master, instead of getting trip, he just controls time. I got the inspiration after I played alchemist and it rolled into "highest person w/ speed loses it, highest person w/ speed gets more turns" and I rolled into it several times, and somehow I did enough damage to put it below negative health, but it was still my turn so I could overkill it even more.
+
+#-Artificer?, my brother wants a class all about DOT, so this class would spend time setting up drones that would attack. I'd consider this class more "makable?" if there were more than 2 different drone ideas that he gave me. When I wrote this idea down, I now realise that it's supposed to counter the troll race.... The reason I made monster races is to counter different build ideas, not build ideas countering monsters.
+
 import sys
 import random
 import time
@@ -37,6 +78,17 @@ p_loot=0
 p_insurance=0
 mon1_hp_last_turn=0
 g=0 #this is a var for the shaman in "def mon1_turn()"
+
+def scramble_code(t):
+    global scrambled
+    machine_id=uuid.getnode()
+    scrambled=""
+    r=len(str(machine_id))
+    r-=1
+    while r>0:
+        input_var=str(int(str(machine_id)[r])+t)
+        scrambled=scrambled+input_var
+        r-=1
 
 def rest():
     global p_max_health, p_max_speed, p_speed, p_health, p_mana, p_max_mana, p_energy, p_AB, p_AB_temp, p_effect, mon1_perma_effect, mon1_effect, p_max_race_charges, p_race_charges, p_race, did_p_use_ml, mon1_race, p_armor, p_max_armor
@@ -167,7 +219,7 @@ def town():
     elif input_var=="shop" or input_var=="sh":
         shop()
     elif input_var=="examine" or input_var=="e":
-        print(f"Your stats are, {p_max_health} hp, {p_max_mana} mana, {p_AB}AB, {p_max_armor} armor, {p_max_speed} speed, {p_loot} loot.\nYour extra stats are {p_lv} level, ${p_coins}, {num_of_quests} shop(s), Quest: {quest}, Insurance: {p_insurance}.")
+        print(f"Your stats are, {p_max_health} hp, {p_max_mana} mana, {p_AB}AB, {p_max_armor} armor, {p_max_speed} speed, {p_DR} DR, {p_loot} loot.\nYour extra stats are {p_lv} level, ${p_coins}, {num_of_quests} shop(s), Quest: {quest}, Insurance: {p_insurance}.")
         input_var=""
         if p_classes.count("Berserker")>0:
             input_var+=(f'Lv{p_classes.count("Berserker")} Berserker ')
@@ -500,7 +552,7 @@ def points(w):
         p_max_speed+=random.randint(1, 3)
         print("You put your points into speed!")
     elif input_var=="loot" or input_var=="l":
-        p_loot+=random.randint(2, 5)
+        p_loot+=random.randint(2, 7)
         print("You put your points into Loot!")
     else:
         if w=="shop":
@@ -635,8 +687,8 @@ def choose_a_race():
     elif input_var=="mind flayer" or input_var=="mf" or input_var=="mindflayer": #Premium
         input_var=input("Enter the Mind Flayer code:\n>>>")
         input_var=input_var.lower()
-        machine_id = uuid.getnode()
-        if input_var==".".join(str(int(part) + 1) for part in str(machine_id).split()):
+        scramble_code(1)
+        if input_var==scrambled:
             p_race="Mind Flayer"
             print("Be warned, Mind Flayers get very hungry when not consuming brains. Thus, they take damage EVERY TURN.")
             p_max_speed-=random.randint(0, 3)
@@ -652,8 +704,8 @@ def choose_a_race():
     elif input_var=="war bot" or input_var=="wb" or input_var=="warbot": #Premium
         input_var=input("Enter the War Bot code:\n>>>")
         input_var=input_var.lower()
-        machine_id = uuid.getnode()
-        if input_var==".".join(str(int(part) * 2) for part in str(machine_id).split()):
+        scramble_code(2)
+        if input_var==scrambled:
             p_race="War bot"
             p_max_speed-=random.randint(2, 5)
             p_max_health+=random.randint(20, 40)
@@ -688,8 +740,8 @@ def choose_a_race():
     elif input_var=="dr" or input_var=="dragonling" or input_var=="dl": #Premium
         input_var=input("Enter the Dragonling code:\n>>>")
         input_var=input_var.lower()
-        machine_id = uuid.getnode()
-        if input_var==".".join(str(int(part) * 2 + 1) for part in str(machine_id).split()):
+        scramble_code(3)
+        if input_var==scrambled:
             input_var=input("What color of dragonling?\n-Red does more damage.\n-Blue gets mana each time you hit.\n-Green does DOT.\n-Black does percentage damage.\n-White reduces speed.\n-Brass gives a buff heals over time.\n-Bronze has a chance to trip.\n-Copper gives a random effect.\n-Gold heals instead of damage.\n-Silver has a chance to give you another turn.\n     (This is NOT like other inputs where you can enter the first letter.)\n>>>")
             input_var=input_var.lower()
             if input_var=="red":
@@ -783,8 +835,8 @@ def choose_a_race():
     elif input_var=="aasimar" or input_var=="aa": #Premium
         input_var=input("Enter the Aasimar code:\n>>>")
         input_var=input_var.lower()
-        machine_id = uuid.getnode()
-        if input_var==".".join(str(int(part) + 4) for part in str(machine_id).split()):
+        scramble_code(4)
+        if input_var==scrambled:
             p_race="Aasimar"
             p_max_health+=random.randint(15, 25)
             p_max_mana+=random.randint(1, 3)
@@ -865,11 +917,11 @@ def level_up():
             p_loot+=random.randint(3, 4)
             break
         elif input_var=="shaman" or input_var=="sh": #Premium
-            machine_id = uuid.getnode()
-            input_var=input("Put your Shaman code here:\n>>>")
-            input_var=input_var.lower()
             if p_classes.count("Shaman")==0:
-                if input_var==".".join(str(int(part) + 3 // 2) for part in str(machine_id).split()):
+                input_var=input("Put your Shaman code here:\n>>>")
+                input_var=input_var.lower()
+                scramble_code(5)
+                if input_var==scrambled:
                     input_var="Shaman" #gets energy
                     p_max_speed+=random.randint(3, 4)
                     p_max_mana+=random.randint(6, 8)
@@ -890,11 +942,11 @@ def level_up():
                 p_loot+=random.randint(2, 4)
                 break
         elif input_var=="hunter" or input_var=="hu": #Premium
-            machine_id = uuid.getnode()
-            input_var=input("Put your Hunter code here:\n>>>")
-            input_var=input_var.lower()
             if p_classes.count("Hunter")==0:
-                if input_var==".".join(str(int(part) + 6) for part in str(machine_id).split()):
+                input_var=input("Put your Hunter code here:\n>>>")
+                input_var=input_var.lower()
+                scramble_code(6)
+                if input_var==scrambled:
                     input_var="Hunter"
                     p_max_speed+=random.randint(6, 12)
                     p_max_health+=random.randint(27, 54)
@@ -915,11 +967,11 @@ def level_up():
                 p_loot+=random.randint(1, 4)
                 break
         elif input_var=="spellsword" or input_var=="ss": #Premium
-            machine_id = uuid.getnode()
-            input_var=input("Put your Spellsword code here:\n>>>")
-            input_var=input_var.lower()
             if p_classes.count("Spellsword")==0:
-                if input_var==".".join(str(int(part) * 3 // 2 + 2) for part in str(machine_id).split()):
+                input_var=input("Put your Spellsword code here:\n>>>")
+                input_var=input_var.lower()
+                scramble_code(7)
+                if input_var==scrambled:
                     input_var="Spellsword"
                     p_max_health+=random.randint(20, 50)
                     p_max_mana+=random.randint(8, 11)
@@ -943,10 +995,10 @@ def level_up():
                 break
         elif input_var=="alchemist" or input_var=="al": #Premium
             if p_classes.count("Alchemist")==0:
-                machine_id = uuid.getnode()
                 input_var=input("Put your Alchemist code here:\n>>>")
                 input_var=input_var.lower()
-                if input_var==".".join(str(int(part) + 8) for part in str(machine_id).split()):
+                scramble_code(8)
+                if input_var==scrambled:
                     input_var="Alchemist"
                     p_max_health+=random.randint(15, 35)
                     p_AB+=random.randint(0, 3)
@@ -970,10 +1022,10 @@ def level_up():
                 break
         elif input_var=="pyromancer" or input_var=="py": #Premium
             if p_classes.count("Pyromancer")==0:
-                machine_id = uuid.getnode()
                 input_var=input("Put your Pyromancer code here:\n>>>")
                 input_var=input_var.lower()
-                if input_var==".".join(str(int(part) * 9) for part in str(machine_id).split()):
+                scramble_code(9)
+                if input_var==scrambled:
                     input_var="Pyromancer"
                     p_max_health+=random.randint(22, 29)
                     p_AB+=random.randint(1, 2)
@@ -1259,8 +1311,8 @@ def fight():
                 revival_cooldown-=random.randint(21, 26)
             revival_cooldown=abs(revival_cooldown)
             p_health-=revival_cooldown-p_DR
-            mon1_AB+=random.randint(8, 12)*p_lv
-            mon1_spd+=random.randint(7, 9)*p_lv
+            mon1_AB+=random.randint(8*p_lv, 12*p_lv)
+            mon1_spd+=random.randint(7*p_lv, 9*p_lv)
             while p_health>0 and mon1_hp>0:
                 mon1_turn()
                 if p_health>0 and mon1_hp>0:
@@ -1298,40 +1350,41 @@ def fight():
                 input_var=input("You've reached the level when you can reset your build to unlock a premium race/class. If you do so, your build gets reset. Would you like to continue playing, or unlock a random premium race/class? Inputs are 'yes' and 'no'.\n>>>")
                 input_var=input_var.lower()
                 if input_var=="yes" or input_var=="y":
-                    input_var=random.randint(1, 8)
-                    machine_id = uuid.getnode()
+                    input_var=random.randint(1, 9)
+                    machine_id=uuid.getnode()
                     if input_var==1: #Mind Flayer
-                        scrambled = ".".join(str(int(part) + 1) for part in str(machine_id).split())
+                        scramble_code(input_var)
                         print(f"Here is your code for mind flayer: {scrambled}")
                     elif input_var==2: #War Bot
-                        scrambled = ".".join(str(int(part) * 2) for part in str(machine_id).split())
+                        scramble_code(input_var)
                         print(f"Here is your code for war bot: {scrambled}")
                     elif input_var==3: #Dragonling
-                        scrambled = ".".join(str(int(part) * 2 + 1) for part in str(machine_id).split())
+                        scramble_code(input_var)
                         print(f"Here is your code for Dragonling: {scrambled}")
                     elif input_var==4: #Aasimar
-                        scrambled = ".".join(str(int(part) + 4) for part in str(machine_id).split())
+                        scramble_code(input_var)
                         print(f"Here is your code for Aasimar: {scrambled}")
                     elif input_var==5: #Shaman
-                        scrambled = ".".join(str(int(part) + 3 // 2) for part in str(machine_id).split())
+                        scramble_code(input_var)
                         print(f"Here is your code for Shaman: {scrambled}")
                     elif input_var==6: #Hunter
-                        scrambled = ".".join(str(int(part) + 6) for part in str(machine_id).split())
+                        scramble_code(input_var)
                         print(f"Here is your code for Hunter: {scrambled}")
                     elif input_var==7: #Spellsword
-                        scrambled = ".".join(str(int(part) * 3 // 2 + 2) for part in str(machine_id).split())
+                        scramble_code(input_var)
                         print(f"Here is your code for Spellsword: {scrambled}")
                     elif input_var==8: #Alchemist
-                        scrambled = ".".join(str(int(part) + 8) for part in str(machine_id).split())
+                        scramble_code(input_var)
                         print(f"Here is your code for Alchemist: {scrambled}")
                     elif input_var==9: #Pyromancer
-                        scrambled = ".".join(str(int(part) * 9) for part in str(machine_id).split())
+                        scramble_code(input_var)
+                        print(f"Here is your code for Pyromancer: {scrambled}")
                     sys.exit()
                 elif input_var=="no" or input_var=="n":
                     break
         if mon1_hp<mon1_max_hp*-1.4:
             mon1_hp=mon1_max_hp*-1.4
-        p_coins+=(random.randint(1, 1+p_lv*2)+p_loot+abs(mon1_hp)//random.randint(p_lv*20, p_lv*35))
+        p_coins+=(random.randint(2, 1+p_lv*2)+p_loot+abs(mon1_hp)//random.randint(p_lv*20, p_lv*35))
         mon1_perma_effect="non"
         if p_effect=="trip":
             p_effect='non'
@@ -1634,13 +1687,13 @@ def mon1_turn():
     if p_armor>=9999999989:
         p_armor-=10000000000
     if mon1_perma_effect=="Ma9":
-        mon1_hp-=random.randint(3, 6)*p_lv
+        mon1_hp-=random.randint(3*p_lv, 6*p_lv)
         if mon1_hp>0:
             print(f"Your Acid Splash spell dealt damage! It's now down to {mon1_hp} hp!")
         else:
             print(f"Your Acid Splash spell dealt damage!")
     elif mon1_perma_effect=="Green Breath":
-        mon1_hp-=random.randint(1, 5)*p_lv
+        mon1_hp-=random.randint(1*p_lv, 5*p_lv)
         print(f"Your Breath Attack dealt damage! It's now down to {mon1_hp} hp!")
     elif mon1_perma_effect[:3]=="Ss4":
         if random.randint(0, len(mon1_perma_effect)+3)>4:
@@ -1667,7 +1720,7 @@ def p_turn(w):
     global p_health, p_mana, p_max_mana, p_energy, input_var, p_classes, p_AB, p_AB_temp, p_armor, p_DR, p_race, p_speed, p_lv, mon1_hp, mon1_spd, mon1_armor, mon1_AB, mon1_effect, p_effect, p_trip_bonus, mon1_dmg, did_p_use_ml
     p_DR=p_DR//1
     if p_race=="Mind Flayer" and did_p_use_ml!="Mind Leech":
-        p_health-=random.randint(1, 3)*p_lv+random.randint(10, 14)
+        p_health-=random.randint(1*p_lv, 3*p_lv)+random.randint(10, 14)
     else:
         did_p_use_ml="non"
     if p_effect=="trip":
@@ -1702,12 +1755,12 @@ def p_turn(w):
         while input_var>0:
             input_var-=1
             if random.randint(1, 3)!=1: #mon1_armor<=random.randint(-3, 5) + p_AB_temp:         #<--- That's hashtagged out because it's technically a spell and it shouldn't rely on AB. Plus, Mage doesn't get AB from leveling, so it's really iritating to code this, then the copies just miss every day because you don't have AB. Does that make sense?
-                mon1_hp-=(random.randint(6, 10)*p_lv)
+                mon1_hp-=(random.randint(6*p_lv, 10*p_lv))
                 print("The clone hit!")
             else:
                 print("The clone missed.")
     elif p_effect=="Cl4":
-        p_health+=random.randint(4, 7)*p_classes.count("Cleric")#+p_classes.count("Cleric")*2
+        p_health+=random.randint(4*p_classes.count("Cleric"), 7*p_classes.count("Cleric"))#+p_classes.count("Cleric")*2
         print(f"The power of regeneration has healed you! You're up to {p_health} health.")
         if p_health>p_max_health:
             p_health=p_max_health
@@ -1814,10 +1867,10 @@ def p_turn_pt2():
                 if p_race_charges>0:
                     p_race_charges-=1
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(12, 19)*p_lv+18)
+                        mon1_hp-=(random.randint(12*p_lv, 19*p_lv+18))
                         print("You CRIT, dealing more damage!")
                     else:
-                        mon1_hp-=(random.randint(10, 14)*p_lv+13)
+                        mon1_hp-=(random.randint(10*p_lv, 14*p_lv+13))
                         print("You hit!")
                 else:
                     print("You don't have enough charges for your Red Breath Attack.")
@@ -1828,11 +1881,11 @@ def p_turn_pt2():
                     p_race_charges-=1
                     p_mana+=random.randint(p_lv, p_lv*4)
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(9, 13)*p_lv)
+                        mon1_hp-=(random.randint(9*p_lv, 13*p_lv))
                         p_mana+=random.randint(p_lv, p_lv*random.randint(2, 3))
                         print("You CRIT, dealing more damage and gaining more mana!")
                     else:
-                        mon1_hp-=(random.randint(7, 11)*p_lv)
+                        mon1_hp-=(random.randint(7*p_lv, 11*p_lv))
                         print("You hit!")
                     if p_mana>p_max_mana:
                         p_mana=p_max_mana
@@ -1844,10 +1897,10 @@ def p_turn_pt2():
                 if p_race_charges>0:
                     p_race_charges-=1
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(10, 11)*p_lv)
+                        mon1_hp-=(random.randint(10*p_lv, 11*p_lv))
                         print("You CRIT, dealing more damage and inflicting DOT!")
                     else:
-                        mon1_hp-=(random.randint(5, 7)*p_lv)
+                        mon1_hp-=(random.randint(5*p_lv, 7*p_lv))
                         print("You hit, inflicting DOT!")
                     mon1_perma_effect="Green Breath"
                 else:
@@ -1872,10 +1925,10 @@ def p_turn_pt2():
                 if p_race_charges>0:
                     p_race_charges-=1
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(8, 15)*p_lv)
+                        mon1_hp-=(random.randint(8*p_lv, 15*p_lv))
                         print("You CRIT, dealing more damage!")
                     else:
-                        mon1_hp-=(random.randint(7, 10)*p_lv)
+                        mon1_hp-=(random.randint(7*p_lv, 10*p_lv))
                         print("You hit!")
                     mon1_spd-=random.uniform(1+p_lv/6, 3+p_lv/4)
                     mon1_spd=int(mon1_spd)
@@ -1888,10 +1941,10 @@ def p_turn_pt2():
                 if p_race_charges>0:
                     p_race_charges-=1
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(10, 13)*p_lv)
+                        mon1_hp-=(random.randint(10*p_lv, 13*p_lv))
                         print("You CRIT, dealing more damage!")
                     else:
-                        mon1_hp-=(random.randint(8, 9)*p_lv)
+                        mon1_hp-=(random.randint(8*p_lv, 9*p_lv))
                         print("You hit!")
                     p_effect="B&B"
                 else:
@@ -1902,10 +1955,10 @@ def p_turn_pt2():
                 if p_race_charges>0:
                     p_race_charges-=1
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(10, 15)*p_lv)
+                        mon1_hp-=(random.randint(10*p_lv, 15*p_lv))
                         print("You CRIT, dealing more damage!")
                     else:
-                        mon1_hp-=(random.randint(8, 13)*p_lv)
+                        mon1_hp-=(random.randint(8*p_lv, 13*p_lv))
                         print("You hit!")
                     if random.randint(1, 4+p_lv//2)>3:
                         mon1_effect="trip"
@@ -1919,10 +1972,10 @@ def p_turn_pt2():
                 if p_race_charges>0:
                     p_race_charges-=1
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(9, 15)*p_lv)
+                        mon1_hp-=(random.randint(9*p_lv, 15*p_lv))
                         print("You CRIT, dealing more damage!")
                     else:
-                        mon1_hp-=(random.randint(7, 12)*p_lv)
+                        mon1_hp-=(random.randint(7*p_lv, 12*p_lv))
                         print("You hit!")
                     q=random.randint(1, 9)
                     if (p_classes.count("Shaman")+p_classes.count("Mage")+p_classes.count("Spellsword")+p_classes.count("Cleric")+p_classes.count("Pyromancer")<1) and q==1:
@@ -2017,6 +2070,16 @@ def p_turn_pt2():
                                     p_effect+="a"
                         elif input_var==17:
                             p_effect="PPot"
+                        elif input_var==18:
+                            p_effect="Py3"
+                        elif input_var==18:
+                            if p_effect=="Py5":
+                                q=random.randint(1, 3)
+                                while q>0:
+                                    q-=1
+                                    p_effect+="q"
+                            else:
+                                p_effect="Py5"
                         else:
                             p_effect="trip"
                         print(f"Your effect is now {p_effect}!")
@@ -2030,10 +2093,10 @@ def p_turn_pt2():
                 if p_race_charges>0:
                     p_race_charges-=1
                     if random.randint(1, 18)==1:
-                        p_health-=(random.randint(14, 18)*p_lv)
+                        p_health-=(random.randint(14*p_lv, 18*p_lv))
                         print("You CRIT, dealing healing more!")
                     else:
-                        p_health-=(random.randint(10, 13)*p_lv)
+                        p_health-=(random.randint(10*p_lv, 13*p_lv))
                         print("You hit!")
                     if p_health>p_max_health:
                         p_health=p_max_health
@@ -2045,10 +2108,10 @@ def p_turn_pt2():
                 if p_race_charges>0:
                     p_race_charges-=1
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(12, 16)*p_lv)
+                        mon1_hp-=(random.randint(12*p_lv, 16*p_lv))
                         print("You CRIT, dealing more damage!")
                     else:
-                        mon1_hp-=(random.randint(10, 13)*p_lv)
+                        mon1_hp-=(random.randint(10*p_lv, 13*p_lv))
                         print("You hit!")
                     if random.randint(1, 4+p_lv//3)>2:
                         print("You go again!")
@@ -2151,7 +2214,7 @@ def p_turn_pt2():
             p_mana=p_mana//1
         elif (input_var=="rocket blast" or input_var=="rb") and p_race_charges>0 and "War Bot" in p_race:
             p_race_charges-=1
-            mon1_hp-=(random.randint(18, 24)*p_lv)
+            mon1_hp-=(random.randint(18*p_lv, 24*p_lv))
             input_var="Your Rocket Blast dealt a lot of damage"
             if random.randint(1, 5)>2:
                 if p_effect!="trip":
@@ -2167,7 +2230,7 @@ def p_turn_pt2():
                     mon1_armor-=2
                 mon1_effect="trip"
                 input_var+=" and tripped them"
-            input_var+=". Then reduced armor by 1."
+            input_var+=". Then reduced it's armor by 1."
             mon1_armor-=1
             print(input_var)
         elif (input_var=="divine healing" or input_var=="dh") and p_race_charges>0 and p_race=="Aasimar":
@@ -2191,7 +2254,7 @@ def p_turn_pt2():
                     p_effect="brew"
                 input_var=len(p_effect)-3
                 print(f"You've brewed your next potion {input_var} times! (And you healed a little.)")
-                p_health+=(random.randint(2, 5)*p_classes.count("Alchemist"))
+                p_health+=(random.randint(2*p_classes.count("Alchemist"), 5*p_classes.count("Alchemist")))
                 return
             else:
                 print("You didn't answer a correct answer. Rebooting now...")
@@ -2212,9 +2275,9 @@ def p_turn_pt2():
                                 q+=random.randint(0, 3)
                         input_var="drink"
                     elif p_effect=="PPot":
-                        p_health+=(random.randint(5, 7)*p_classes.count("Alchemist"))
+                        p_health+=(random.randint(5*p_classes.count("Alchemist"), 7*p_classes.count("Alchemist")))
                     if mon1_effect=="MonPot":
-                        p_health-=(random.randint(5, 7)*p_classes.count("Alchemist"))
+                        p_health-=(random.randint(5*p_classes.count("Alchemist"), 7*p_classes.count("Alchemist")))
                 elif input_var=="throw":
                     q-=random.randint(-3, 4)
                     if p_effect[:4]=="brew":
@@ -2225,9 +2288,9 @@ def p_turn_pt2():
                                 q-=random.randint(0, 3)
                         input_var="throw"
                     elif p_effect=="PPot":
-                        mon1_hp-=(random.randint(5, 7)*p_classes.count("Alchemist"))
+                        mon1_hp-=(random.randint(5*p_classes.count("Alchemist"), 7*p_classes.count("Alchemist")))
                     if mon1_effect=="MonPot":
-                        mon1_hp+=(random.randint(5, 7)*p_classes.count("Alchemist"))
+                        mon1_hp+=(random.randint(5*p_classes.count("Alchemist"), 7*p_classes.count("Alchemist")))
             if p_effect[:4]=="brew" and input_var=="brew":
                 q=0
             else:
@@ -2237,7 +2300,7 @@ def p_turn_pt2():
             if q==1: #Very Bad #\-/
                 print("Very Bad: The potion was instant poison! The target is down to 1hp!")
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     if mon1_hp>0:
                         mon1_hp=1
                 elif input_var=="drink":
@@ -2248,31 +2311,33 @@ def p_turn_pt2():
             elif q==2: #Bad #\-/
                 if input_var=="throw":
                     input_var="drink" #yes, this is supposed to be like this
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 elif input_var=="drink":
                     input_var="throw" #yes, this is supposed to be like this
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 q=random.randint(11, 17) #\-/
                 print("Bad: The potion gave the other target a good effect.")
             elif q==3: #Bad #\-/
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     mon1_hp-=random.uniform(10, 45)/100*mon1_max_hp
                 elif input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     p_health-=random.uniform(10, 45)/100*p_max_health
+                p_health=p_health//1
+                mon1_hp=mon1_hp//1
                 print("Bad: The potion dealt percentage damage.")
             elif q==4: #Bad #\-/
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 12)*p_classes.count("Alchemist"))
-                    p_health+=(random.randint(7, 12)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 12*p_classes.count("Alchemist")))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 12*p_classes.count("Alchemist")))
                 elif input_var=="drink":
-                    p_health-=(random.randint(7, 12)*p_classes.count("Alchemist"))
-                    mon1_hp+=(random.randint(7, 12)*p_classes.count("Alchemist"))
+                    p_health-=(random.randint(7*p_classes.count("Alchemist"), 12*p_classes.count("Alchemist")))
+                    mon1_hp+=(random.randint(7*p_classes.count("Alchemist"), 12*p_classes.count("Alchemist")))
                 print("Bad: The potion was a life-drain potion!")
             elif q==5: #Bad #\-/
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     if mon1_effect=="trip":
                         q=p_classes.count("Alchemist")
                         while q>0:
@@ -2282,7 +2347,7 @@ def p_turn_pt2():
                         mon1_armor-=2
                     mon1_effect="trip"
                 elif input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     if p_effect!="trip":
                         p_armor-=2
                         p_DR-=p_lv*4+4
@@ -2291,15 +2356,15 @@ def p_turn_pt2():
             elif q==6: #Bad #\-/
                 if input_var=="throw":
                     mon1_armor-=random.randint(2+p_classes.count("Alchemist")//3, 2+p_classes.count("Alchemist")//2)
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 elif input_var=="drink":
                     p_armor-=random.randint(2+p_classes.count("Alchemist")//3, 2+p_classes.count("Alchemist")//2)
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 print("Bad: The potion reduced the armor of the target!")
             elif q==7: #Neutral #\-/
                 print("Neutral: The potion was a randomize potion!")
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     input_var=mon1_hp/mon1_max_hp
                     q=mon1_effect
                     create_monster()
@@ -2308,9 +2373,9 @@ def p_turn_pt2():
                     mon1_effect=q
                     input_var="throw"
                 elif input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     #
-                    q=random.randint(-15, 15)*p_classes.count("Alchemist")
+                    q=random.randint(-18*p_classes.count("Alchemist"), 18*p_classes.count("Alchemist"))
                     p_max_health+=q
                     p_health+=q
                     input_var="Max Hp "
@@ -2320,7 +2385,7 @@ def p_turn_pt2():
                         input_var+="+ "
                     input_var+=str(abs(q))
                     #
-                    q=random.randint(-3, 3)*p_classes.count("Alchemist")
+                    q=random.randint(-5*p_classes.count("Alchemist"), 5*p_classes.count("Alchemist"))
                     p_speed+=q
                     p_max_speed+=q
                     input_var+=", Max Spd "
@@ -2330,7 +2395,7 @@ def p_turn_pt2():
                         input_var+="+ "
                     input_var+=str(abs(q))
                     #
-                    q=random.randint(-5, 5)*p_classes.count("Alchemist")
+                    q=random.randint(-3*p_classes.count("Alchemist"), 3*p_classes.count("Alchemist"))
                     p_AB_temp+=q
                     p_AB+=q
                     input_var+=", Max AB "
@@ -2340,7 +2405,7 @@ def p_turn_pt2():
                         input_var+="+ "
                     input_var+=str(abs(q))
                     #
-                    q=random.randint(-2, 2)*p_classes.count("Alchemist")
+                    q=random.randint(-2*p_classes.count("Alchemist"), 2*p_classes.count("Alchemist"))
                     input_var+=", Max Armor "
                     if q<0:
                         input_var+="- "
@@ -2350,7 +2415,7 @@ def p_turn_pt2():
                     p_max_armor+=q
                     p_armor+=q
                     #
-                    q=random.randint(-5, 5)*p_classes.count("Alchemist")
+                    q=random.randint(-5*p_classes.count("Alchemist"), 5*p_classes.count("Alchemist"))
                     input_var+=", Max Mana "
                     if q<0:
                         input_var+="- "
@@ -2360,7 +2425,7 @@ def p_turn_pt2():
                     p_mana+=q
                     p_max_mana+=q
                     #
-                    q=random.randint(-2, 2)*p_classes.count("Alchemist")
+                    q=random.randint(-3*p_classes.count("Alchemist"), 3*p_classes.count("Alchemist"))
                     input_var+=", Loot "
                     if q<0:
                         input_var+="- "
@@ -2377,14 +2442,14 @@ def p_turn_pt2():
                         p_race_charges+=q
                         p_max_race_charges+=q
                     #
-                    q=random.randint(-5, 5)*p_classes.count("Alchemist")
+                    q=random.randint(-7*p_classes.count("Alchemist"), 7*p_classes.count("Alchemist"))
                     input_var+=", DR "
                     input_var+="+ "
                     input_var+=str(abs(q))
                     p_DR+=q
                     #
                     if p_classes.count("Shaman")>0 or p_classes.count("Monk") or p_race=="Human Devotee":
-                        q=random.randint(-3, 3)*p_classes.count("Alchemist")
+                        q=random.randint(-4*p_classes.count("Alchemist"), 4*p_classes.count("Alchemist"))
                         input_var+=", Energy "
                         if q<0:
                             input_var+="- "
@@ -2397,20 +2462,83 @@ def p_turn_pt2():
                     input_var="drink"
                 q=6 #\-/
             elif q==8: #Neutral #\-/
-                print("Neutral: The potion failed and didn't do anything.")
+                print("Neutral: If the target has an odd amount of the stat, they lose some of that stat, otherwise, they gain some of that stat.")
+                if input_var=="throw":
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
+                    if random.randint(1, 3)>=1: #hp
+                        input_var=random.randint(10*p_classes.count("Alchemist"), 15*p_classes.count("Alchemist"))
+                        if mon1_max_hp%2==1:
+                            mon1_max_hp-=input_var
+                            mon1_hp-=input_var
+                            print(f"Neutral: The {mon1_race} lost max hp.")
+                        else:
+                            mon1_max_hp+=input_var
+                            mon1_hp+=input_var
+                            print(f"Neutral: The {mon1_race} gained max hp.")
+                    if random.randint(1, 2)==1: #spd
+                        if mon1_spd%2==1:
+                            mon1_spd-=random.randint(p_classes.count("Alchemist"), 3*p_classes.count("Alchemist"))
+                            print(f"Neutral: The {mon1_race} lost speed.")
+                        else:
+                            mon1_spd+=random.randint(p_classes.count("Alchemist"), 3*p_classes.count("Alchemist"))
+                            print(f"Neutral: The {mon1_race} gained speed.")
+                    if random.randint(1, 3)>=1: #armor
+                        if int(mon1_armor)%2==1:
+                            mon1_armor-=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist"))
+                            print(f"Neutral: The {mon1_race} lost armor.")
+                        else:
+                            mon1_armor+=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist"))
+                            print(f"Neutral: The {mon1_race} gained armor.")
+                    if random.randint(1, 3)>=1: #ab
+                        if int(mon1_ab)%2==1:
+                            mon1_ab-=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist")+p_classes.count("Alchemist")//4)
+                            print(f"Neutral: The {mon1_race} lost AB.")
+                        else:
+                            mon1_ab+=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist")+p_classes.count("Alchemist")//4)
+                            print(f"Neutral: The {mon1_race} gained AB.")
+                elif input_var=="drink":
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
+                    if random.randint(1, 3)>=1: #hp
+                        if p_health%2==1:
+                            p_health-=random.randint(10*p_classes.count("Alchemist"), 15*p_classes.count("Alchemist"))
+                            print(f"Neutral: You lost hp.")
+                        else:
+                            p_health+=random.randint(10*p_classes.count("Alchemist"), 15*p_classes.count("Alchemist"))
+                            print(f"Neutral: You gained hp.")
+                    if random.randint(1, 2)==1: #spd
+                        if p_speed%2==1:
+                            p_speed-=random.randint(p_classes.count("Alchemist"), 3*p_classes.count("Alchemist"))
+                            print(f"Neutral: You lost speed.")
+                        else:
+                            p_speed+=random.randint(p_classes.count("Alchemist"), 3*p_classes.count("Alchemist"))
+                            print(f"Neutral: You gained speed.")
+                    if random.randint(1, 3)>=1: #armor
+                        if p_armor%2==1:
+                            p_armor-=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist"))
+                            print(f"Neutral: You lost armor.")
+                        else:
+                            p_armor+=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist"))
+                            print(f"Neutral: You gained armor.")
+                    if random.randint(1, 3)>=1: #ab
+                        if p_AB_temp%2==1:
+                            p_AB_temp-=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist")+p_classes.count("Alchemist")//4)
+                            print(f"Neutral: You lost AB.")
+                        else:
+                            p_AB_temp+=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist")+p_classes.count("Alchemist")//4)
+                            print(f"Neutral: You gained AB.")
             elif q==9: #Neutral #\-/
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
-                    mon1_AB+=random.randint(2+p_classes.count("Alchemist")//4, 4+p_classes.count("Alchemist")//2)
-                    mon1_hp-=mon1_AB*random.randint(6, 7)
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
+                    mon1_AB+=random.randint(2+p_classes.count("Alchemist")//4, 7+p_classes.count("Alchemist")//2)
+                    mon1_hp-=random.randint(5*mon1_AB, 6*mon1_AB)
                 elif input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
-                    p_AB_temp+=random.randint(2+p_classes.count("Alchemist")//4, 4+p_classes.count("Alchemist")//2)
-                    p_health-=p_AB_temp*random.randint(6, 7)
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
+                    p_AB_temp+=random.randint(2+p_classes.count("Alchemist")//4, 7+p_classes.count("Alchemist")//2)
+                    p_health-=random.randint(5*p_AB_temp, 6*p_AB_temp)
                 print("Neutral: The potion gave lots of AB, but dealt damage scaling with the AB the target has.")
             elif q==10: #Neutral #\-/
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     if mon1_effect=="trip":
                         mon1_armor+=2
                     input_var=mon1_AB
@@ -2420,7 +2548,7 @@ def p_turn_pt2():
                         mon1_armor-=2
                     input_var="throw"
                 elif input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     input_var=p_armor
                     p_armor=p_AB_temp
                     p_AB_temp=input_var
@@ -2433,9 +2561,9 @@ def p_turn_pt2():
                 else:
                     p_speed-=random.randint(p_classes.count("Alchemist")//3, 2+p_classes.count("Alchemist"))
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 elif input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 if mon1_spd+random.randint(0, p_lv*2)>p_speed+random.randint(0, p_lv*2):
                     input_var=random.randint(1, 3)
                     if input_var==1:
@@ -2466,12 +2594,12 @@ def p_turn_pt2():
                         p_turn("non")
             elif q==12: #Neutral #\-/
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     mon1_spd-=(mon1_max_hp-mon1_hp)//random.randint(15, 20)
                     mon1_hp=mon1_max_hp
                     mon1_spd-=1
                 elif input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     p_speed-=(p_max_health-p_health)//random.randint(15, 20)
                     p_health=p_max_health
                     p_speed-=1
@@ -2479,22 +2607,22 @@ def p_turn_pt2():
             elif q==13: #Good #\-/
                 print("Good: The potion was a time potion, giving them an extra turn!")
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     mon1_turn()
                 elif input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health=p_health+(random.randint(7, 10)*p_classes.count("Alchemist"))
                     p_turn("non")
             elif q==14: #Good #\-/
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     mon1_spd+=random.randint(1+p_classes.count("Alchemist"), p_classes.count("Alchemist")*3)
                 elif input_var=="drink":
                     p_speed+=random.randint(1+p_classes.count("Alchemist"), p_classes.count("Alchemist")*3)
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 print("Good: The potion increased their speed!")
             elif q==15: #Good #\-/
                 if input_var=="throw":
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     if mon1_effect=="non":
                         mon1_effect="Rage_"
                         q=random.randint(2, 5)
@@ -2509,7 +2637,7 @@ def p_turn_pt2():
                             q-=1
                             mon1_effect+="q"
                 if input_var=="drink":
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                     if p_effect=="non":
                         p_effect="Dmg"
                         q=random.randint(2, 5)
@@ -2553,21 +2681,24 @@ def p_turn_pt2():
             elif q==16: #Good #\-/
                 if input_var=="throw":
                     mon1_effect="MonPot"
-                    mon1_hp-=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    mon1_hp-=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 elif input_var=="drink":
                     p_effect="PPot"
-                    p_health+=(random.randint(7, 10)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
                 print("Good: The potion gave a buff that increases the damage/healing that future potions cause.")
             elif q==17: #Good #\-/
                 if input_var=="throw":
                     mon1_hp+=(random.randint(7, 10)*p_classes.count("Alchemist"))
                 elif input_var=="drink":
-                    p_health+=(random.randint(21, 30)*p_classes.count("Alchemist"))
+                    p_health+=(random.randint(21*p_classes.count("Alchemist"), 30*p_classes.count("Alchemist")))
                 print("Good: The potion was a healing potion!")
             elif q==18: #Very Good #\-/
                 if input_var=="throw":
-                    print(f"Very Good: The potion transformed the {mon1_race} into a Minotaur, and it full healed it.")
-                    mon1_race="Minotaur"
+                    if not " " in mon1_race or random.randint(1, 4)==1:
+                        print(f"Very Good: The potion transformed the {mon1_race} into a Minotaur, and it full healed it.")
+                        mon1_race="Minotaur"
+                    else:
+                        print(f"Very Good: The potion full healed it.")
                     mon1_hp=mon1_max_hp
                 elif input_var=="drink":
                     print("Very Good: The potion gave you points and completely rested you!")
@@ -2585,9 +2716,9 @@ def p_turn_pt2():
             if p_effect=="-5 AB":
                 p_AB_temp-=5
             if random.randint(1, 18)==1:
-                mon1_hp-=(random.randint(12, 16)*p_lv)
+                mon1_hp-=(random.randint(12*p_lv, 16*p_lv))
                 if p_effect[:5]=="Rage_":
-                    mon1_hp-=random.randint(5, 9)*p_lv
+                    mon1_hp-=random.randint(5*p_lv, 9*p_lv)
                 if p_effect=="chrg":
                     mon1_hp-=p_lv*random.randint(3, 8)
                 if p_effect[:5]!="Rage_":
@@ -2601,7 +2732,7 @@ def p_turn_pt2():
                         p_mana=p_max_mana
                 print("You CRIT! Not only did you automatically hit, but you also dealt much more damage.")
                 if p_effect=="Cl6" or p_effect=="Ss5":
-                    mon1_hp-=(random.randint(7, 12)*p_lv)
+                    mon1_hp-=(random.randint(7*p_lv, 12*p_lv))
                     print("You dealt extra damage with your buff!")
                 elif p_effect[:3]=="Dmg":
                         q=len(p_effect)
@@ -2623,12 +2754,12 @@ def p_turn_pt2():
                             q-=1
                         while input_var>0:
                             input_var-=1
-                            mon1_hp-=random.randint(0, 3)*p_lv
+                            mon1_hp-=random.randint(0, 3*p_lv)
             else:
                 if mon1_armor<=random.randint(-3, 5) + p_AB_temp:
-                    mon1_hp-=(random.randint(10, 13)*p_lv)
+                    mon1_hp-=(random.randint(10*p_lv, 13*p_lv))
                     if p_effect[:5]=="Rage_":
-                        mon1_hp-=random.randint(5, 9)*p_lv
+                        mon1_hp-=random.randint(5*p_lv, 9*p_lv)
                     if p_effect[:5]!="Rage_":
                         if p_race=="Human Devotee":
                             p_energy+=1
@@ -2640,7 +2771,7 @@ def p_turn_pt2():
                             p_mana=p_max_mana
                     print("You hit!")
                     if p_effect=="Cl6" or p_effect=="Ss5":
-                        mon1_hp-=(random.randint(4, 9)*p_lv)
+                        mon1_hp-=(random.randint(4*p_lv, 9*p_lv))
                         print("You dealt extra damage with your buff!")
                     elif p_effect=="Py3":
                         if "f" in mon1_perma_effect:
@@ -2672,7 +2803,7 @@ def p_turn_pt2():
                             q-=1
                         while input_var>0:
                             input_var-=1
-                            mon1_hp-=random.randint(0, 2)*p_lv
+                            mon1_hp-=random.randint(0, 2*p_lv)
                 else:
                     print("You missed.")
             if p_effect=="chrg":
@@ -2687,7 +2818,7 @@ def p_turn_pt2():
             if p_effect=="-5 AB":
                 p_AB_temp-=5
             if mon1_armor<=random.randint(-3, 0) + p_AB_temp:
-                mon1_hp-=random.randint(2, 5)*p_lv
+                mon1_hp-=random.randint(2*p_lv, 5*p_lv)
                 if p_effect[:5]!="Rage_":
                     if p_race=="Human Devotee":
                         p_energy+=1
@@ -2727,7 +2858,7 @@ def p_turn_pt2():
                         q-=1
                     while input_var>0:
                         input_var-=1
-                        mon1_hp-=random.randint(0, 1)*p_lv
+                        mon1_hp-=random.randint(0, 1*p_lv)
                 elif p_effect=="Py3":
                     if "f" in mon1_perma_effect:
                         input_var=random.randint(0, 1)
@@ -2812,7 +2943,7 @@ def p_turn_pt2():
                     if p_effect=="-5 AB":
                         p_AB_temp-=5
                     if random.randint(1, 18)==1:
-                        p_health+=(random.randint(20, 23)*p_lv)
+                        p_health+=(random.randint(20*p_lv, 23*p_lv))
                         if p_effect=="chrg":
                             p_health +=p_lv*random.randint(7, 11)
                         print("You CRIT! Not only did you automatically hit, but you also healed much more.")
@@ -2821,10 +2952,10 @@ def p_turn_pt2():
                             print("You healed extra with your buff!")
                     else:
                         if mon1_armor<=random.randint(-3, 5) + p_AB_temp:
-                            p_health+=(random.randint(14, 19)*p_lv)
+                            p_health+=(random.randint(14*p_lv, 19*p_lv))
                             print("You hit!")
                             if p_effect=="Cl6" or p_effect=="Ss5":
-                                p_health+=(random.randint(10, 16)*p_lv)
+                                p_health+=(random.randint(10*p_lv, 16*p_lv))
                                 print("You healed extra with your buff!")
                         else:
                             print("You missed.")
@@ -2841,10 +2972,10 @@ def p_turn_pt2():
                     if p_effect=="-5 AB":
                         p_AB_temp-=5
                     if mon1_armor<=random.randint(3, 10) + p_AB_temp:
-                        mon1_hp-=random.randint(9, 12)*p_lv
+                        mon1_hp-=random.randint(9*p_lv, 12*p_lv)
                         print("You hit!")
                         if p_effect=="Cl6" or p_effect=="Ss5":
-                            mon1_hp-=(random.randint(7, 12)*p_lv)
+                            mon1_hp-=(random.randint(7*p_lv, 12*p_lv))
                             print("You dealt extra damage with your buff!")
                     else:
                         print("You missed.")
@@ -2864,7 +2995,7 @@ def p_turn_pt2():
                         mon1_hp-=p_AB_temp*random.randint(28, 39)//4
                         print("You hit!")
                         if p_effect=="Cl6" or p_effect=="Ss5":
-                            mon1_hp-=(random.randint(7, 12)*p_lv)
+                            mon1_hp-=(random.randint(7*p_lv, 12*p_lv))
                             print("You dealt extra damage with your buff!")
                     else:
                         print("You missed.")
@@ -2881,7 +3012,7 @@ def p_turn_pt2():
                     if p_effect=="-5 AB":
                         p_AB_temp-=5
                     if mon1_armor<=random.randint(-3, 5) + p_AB_temp:
-                        mon1_hp-=random.randint(9, 14)*p_lv
+                        mon1_hp-=random.randint(9*p_lv, 14*p_lv)
                         mon1_spd-=random.randint(2, 4)
                         print(f"You hit! Their speed is now {mon1_spd}!")
                     else:
@@ -2903,7 +3034,7 @@ def p_turn_pt2():
                         mon1_hp=mon1_hp//1
                         print("You hit!")
                         if p_effect=="Cl6" or p_effect=="Ss5":
-                            mon1_hp-=(random.randint(7, 12)*p_lv)
+                            mon1_hp-=(random.randint(7*p_lv, 12*p_lv))
                             print("You dealt extra damage with your buff!")
                     else:
                         print("You missed.")
@@ -2936,10 +3067,10 @@ def p_turn_pt2():
                     if p_effect=="-5 AB":
                         p_AB_temp-=5
                     if mon1_armor<=random.randint(-3, 5) + p_AB_temp:
-                        mon1_hp-=random.randint(24, 30)*p_lv
+                        mon1_hp-=random.randint(24*p_lv, 30*p_lv)
                         print("You hit!")
                         if p_effect=="Cl6" or p_effect=="Ss5":
-                            mon1_hp-=(random.randint(7, 12)*p_lv)
+                            mon1_hp-=random.randint(7*p_lv, 12*p_lv)
                             print("You dealt extra damage with your buff!")
                     else:
                         print("You missed.")
@@ -3144,7 +3275,7 @@ def p_turn_pt2():
                 if p_mana>=p_classes.count("Mage")*2+1:
                     p_mana-=p_classes.count("Mage")*2+1
                     if random.randint(1, 3)==1:
-                        mon1_hp-=(random.randint(22, 41)*p_lv+p_lv*4)
+                        mon1_hp-=(random.randint(22*p_lv, 41*p_lv)+p_lv*4)
                         if random.randint(1, 100)==1:
                             mon1_hp=-999998999999
                             print("OMEGA LUCKY!!!! YOU ROLLED A 1 IN 100 AND ONE-SHOT THE MONSTER!!!!")
@@ -3152,10 +3283,10 @@ def p_turn_pt2():
                             print("LUCKY, dealing massive damage!!")
                     else:
                         if random.randint(1, 3)!=1:
-                            mon1_hp-=(random.randint(14, 18)*p_lv+p_lv*2)
+                            mon1_hp-=(random.randint(14*p_lv, 18*p_lv)+p_lv*2)
                             print("Medium Luck.")
                         else:
-                            mon1_hp-=(random.randint(6, 8)*p_lv+p_lv)
+                            mon1_hp-=(random.randint(6*p_lv, 8*p_lv)+p_lv)
                             print("Unlucky, but still dealt some damage.")
                 else:
                     print("You do not have enough mana for Ma8.")
@@ -3243,7 +3374,7 @@ def p_turn_pt2():
             elif q=="cl3" and p_classes.count("Cleric")>0:
                 if p_mana>=p_classes.count("Cleric")*3-1:
                     p_mana-=p_classes.count("Cleric")*3-1
-                    mon1_hp-=(random.randint(19, 23)*p_lv)
+                    mon1_hp-=random.randint(19*p_lv, 23*p_lv)
                     print("You dealt massive damage!")
                 else:
                     print("You do not have enough mana for Cl3.")
@@ -3299,18 +3430,18 @@ def p_turn_pt2():
                 if p_mana>=p_lv+p_classes.count("Spellsword")*3:
                     p_mana-=p_lv+p_classes.count("Spellsword")*3
                     if random.randint(1, 18)==1:#CRIT: also supposed to automatically trip
-                        mon1_hp-=(random.randint(13, 18)*p_lv)
+                        mon1_hp-=(random.randint(13*p_lv, 18*p_lv))
                         mon1_effect="trip"
                         mon1_armor-=2
                         if p_effect=="chrg":
                             mon1_hp-=p_lv*random.randint(5, 9)
                         print("You CRIT! Not only did you automatically hit, but you also dealt much more damage. (And you also automatically tripped.")
                         if p_effect=="Cl6" or p_effect=="Ss5":
-                            mon1_hp-=(random.randint(8, 13)*p_lv)
+                            mon1_hp-=random.randint(8*p_lv, 13*p_lv)
                             print("You dealt extra damage with your buff!")
                     else:#Not a crit
                         if mon1_armor/random.randint(3, 4)<=random.randint(0, 5) + p_AB_temp/3:
-                            mon1_hp-=(random.randint(10, 13)*p_lv)
+                            mon1_hp-=(random.randint(10*p_lv, 13*p_lv))
                             if random.randint(1, 9)>=4:
                                 mon1_effect="trip"
                                 print("You tripped it!")
@@ -3318,7 +3449,7 @@ def p_turn_pt2():
                             else:
                                 print("You didn't trip it.")
                             if p_effect=="Cl6" or p_effect=="Ss5":
-                                mon1_hp-=(random.randint(4, 11)*p_lv)
+                                mon1_hp-=(random.randint(4*p_lv, 11*p_lv))
                                 print("You dealt extra damage with your buff!")
                         else:
                             print("You missed.")
@@ -3343,29 +3474,29 @@ def p_turn_pt2():
                     if p_effect=="-5 AB":
                         p_AB_temp-=5
                     if random.randint(1, 18)==1:
-                        mon1_hp-=(random.randint(14, 17)*p_lv)
+                        mon1_hp-=(random.randint(14*p_lv, 17*p_lv))
                         if p_effect=="chrg":
                             mon1_hp-=p_lv*random.randint(5, 9)
                         print("You CRIT! Not only did you automatically hit, but you also dealt much more damage.")
-                        if mon1_perma_effect[:3]=="Ss4":
+                        if "Ss4" in mon1_perma_effect:
                             mon1_perma_effect+="q"
                         else:
                             mon1_perma_effect="Ss4"
                         if random.randint(1, 3)==1:
                             mon1_perma_effect+="q"
                         if p_effect=="Cl6" or p_effect=="Ss5":
-                            mon1_hp-=(random.randint(8, 13)*p_lv)
+                            mon1_hp-=(random.randint(8*p_lv, 13*p_lv))
                             print("You dealt extra damage with your buff!")
                     else:
                         if mon1_armor<=random.randint(-3, 5) + p_AB_temp:
-                            mon1_hp-=(random.randint(10, 13)*p_lv)
+                            mon1_hp-=(random.randint(10*p_lv, 13*p_lv))
                             print("You hit!")
                             if mon1_perma_effect[:3]=="Ss4":
                                 mon1_perma_effect+="q"
                             else:
                                 mon1_perma_effect="Ss4"
                             if p_effect=="Cl6" or p_effect=="Ss5":
-                                mon1_hp-=(random.randint(4, 11)*p_lv)
+                                mon1_hp-=(random.randint(4*p_lv, 11*p_lv))
                                 print("You dealt extra damage with your buff!")
                         else:
                             print("You missed.")
@@ -3461,7 +3592,7 @@ def p_turn_pt2():
                     p_health+=random.randint(34, 40)*(len(mon1_perma_effect)-4)
                     mon1_perma_effect="non"
                     p_health=int(p_health)
-                    print(f"You cast Resurgance! You're up to {p_health}/{p_max_health}!")
+                    print(f"You cast Resurgance! You're up to {p_health} hp/{p_max_health} max hp!")
                 else:
                     print("You do not have enough mana for Py6.")
                     p_turn_pt2()
