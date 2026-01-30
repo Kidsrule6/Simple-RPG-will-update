@@ -8,7 +8,6 @@
 #For other_coders/future_self: Whenever an effect from a monster or yourself is set to "non", instead of "none", that's because the longer the effect is, the lower chance that the monster trip/debuffs you.
     #The above only applies if the stat is above 3 characters.
 
-
 import sys
 import random
 import time
@@ -2460,11 +2459,11 @@ def p_turn_pt2():
                             mon1_armor+=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist"))
                             print(f"Neutral: The {mon1_race} gained armor.")
                     if random.randint(1, 3)>=1: #ab
-                        if int(mon1_ab)%2==1:
-                            mon1_ab-=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist")+p_classes.count("Alchemist")//4)
+                        if int(mon1_AB)%2==1:
+                            mon1_AB-=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist")+p_classes.count("Alchemist")//4)
                             print(f"Neutral: The {mon1_race} lost AB.")
                         else:
-                            mon1_ab+=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist")+p_classes.count("Alchemist")//4)
+                            mon1_AB+=random.randint(1+p_classes.count("Alchemist")//3, p_classes.count("Alchemist")+p_classes.count("Alchemist")//4)
                             print(f"Neutral: The {mon1_race} gained AB.")
                 elif input_var=="drink":
                     p_health+=(random.randint(7*p_classes.count("Alchemist"), 10*p_classes.count("Alchemist")))
